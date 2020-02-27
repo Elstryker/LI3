@@ -20,7 +20,6 @@ int main(int argc, const char * argv[]) {
     produto=fopen("Produtos.txt","r");
     cliente=fopen("Clientes.txt","r");
     venda=fopen("Vendas_1M.txt","r");
-    vendasV=fopen("Vendas Validas","w");
     if(cliente==NULL || produto==NULL || venda==NULL) printf("Erro\n");
     clientes=malloc(20000*sizeof(char*));
     produtos=malloc(200000*sizeof(char*));
@@ -49,7 +48,6 @@ int main(int argc, const char * argv[]) {
         mes=atoi(strtok(NULL, " "));
         super=atoi(strtok(NULL, " \r\n"));
         if (valvenda(prod,prec,un,prom,cli,mes,super) == 1) {
-            if (findProd(prod,produtos)==1)
             vendas[i++]=buffer;
         }
         if(feof(venda)) break;

@@ -1,10 +1,3 @@
-//
-//  Venda.c
-//  LI3
-//
-//  Created by Rúben Cerqueira on 20/02/2020.
-//  Copyright © 2020 Rúben Cerqueira. All rights reserved.
-//
 
 #include "Venda.h"
 #include <ctype.h>
