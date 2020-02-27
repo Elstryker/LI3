@@ -11,7 +11,7 @@
 #include <string.h>
 
 int main(int argc, const char * argv[]) {
-    FILE* cliente,*produto,*venda,*vendasV;
+    FILE* cliente,*produto,*venda;
     int i;
     char** clientes,**produtos,**vendas;
     char buffer[35], *prod, prom, *cli;
