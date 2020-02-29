@@ -1,5 +1,5 @@
 
-#include "Venda.h"
+#include "interface.h"
 #include <ctype.h>
 #include <string.h>
 

@@ -5,7 +5,7 @@
 //  Created by Rúben Cerqueira on 13/02/2020.
 //  Copyright © 2020 Rúben Cerqueira. All rights reserved.
 //
-#include "Venda.h"
+#include "interface.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
