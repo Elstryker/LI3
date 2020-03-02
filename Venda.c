@@ -1,9 +1,45 @@
-
 #include "interface.h"
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 
+struct AVL {
+    int valor;
+    int bal;
+    struct AVL* dir;
+    struct AVL* esq;
+};
 
+struct SGV {
+    int **produtos;
+    int **clientes;
+    int **filiais;
+};
+
+AVL insertAVL(AVL a, int x) { 
+    if (a == NULL) {
+        AVL new=NULL;
+        new=malloc(sizeof(struct AVL));
+        new->valor=x;
+        new->dir=new->esq=NULL;
+        a=new;
+        return a; 
+    }  
+    if (x < a->valor) 
+        a->esq  = insertAVL(a->esq, x); 
+    else if (x > a->valor) 
+        a->dir = insertAVL(a->dir, x);    
+    return a; 
+}
+
+void printAVL (AVL a, int i) {
+    int j;
+    if (a==NULL) return;
+    printAVL(a->dir,i+1);
+    for(j=0;j<i;j++) printf(" ");
+    printf("%d\n",a->valor);
+    printAVL(a->esq,i+1);
+}
 
 int valvenda(char *prod,float prec,int un,char prom,char *cli,int mes,int super) {
     int i=0;
@@ -34,4 +70,3 @@ int findProd(char *prod,char **produtos){
     
     return i;
 }
-

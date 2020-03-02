@@ -11,7 +11,19 @@
 #include <string.h>
 
 int main(int argc, const char * argv[]) {
-    FILE* cliente,*produto,*venda;
+    int x;
+    AVL a=NULL;
+    do {
+    printf("Insere um numero\n");
+    scanf("%d",&x);
+    a=insertAVL(a,x);
+    printAVL(a,0);
+    } while(x!=0);
+    return 0;
+}
+
+
+/*FILE* cliente,*produto,*venda;
     int i;
     char** clientes,**produtos,**vendas;
     char buffer[35], *prod, prom, *cli;
@@ -59,6 +71,4 @@ int main(int argc, const char * argv[]) {
     
     fclose(produto);
     fclose(cliente);
-    fclose(venda);
-    return 0;
-}
+    fclose(venda);*/
