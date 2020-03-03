@@ -9,12 +9,16 @@
 #ifndef interface_h
 #define interface_h
 
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 typedef struct SGV SGV;
-
 typedef struct AVL *AVL;
 
+int altura(AVL a);
+int max(int a,int b);
 AVL rotateR(AVL a);
 AVL rotateL(AVL a);
 AVL insertAVL(AVL a, int x);

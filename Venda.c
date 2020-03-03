@@ -1,11 +1,8 @@
 #include "interface.h"
-#include <ctype.h>
-#include <string.h>
-#include <stdlib.h>
 
 struct AVL {
     int valor;
-    int bal;
+    int alt;
     struct AVL* dir;
     struct AVL* esq;
 };
@@ -16,18 +13,34 @@ struct SGV {
     int **filiais;
 };
 
+int altura(AVL a) {
+    int i;
+    if(a==NULL) {
+        i=0;
+    }
+    else i=a->alt;
+    return i;
+}
+
+int max(int a,int b) {
+    return (a>b?a:b);
+}
+
 AVL rotateR(AVL a) {
     AVL b=a->esq;
     a->esq=b->dir;
     b->dir=a;
+    b->alt=max(altura(b->dir),altura(b->esq)) +1;
+    a->alt=max(altura(a->dir),altura(a->esq)) +1;
     return b;
-
 }
 
 AVL rotateL(AVL a) {
     AVL b=a->dir;
     a->dir=b->esq;
     b->esq=a;
+    b->alt=max(altura(b->dir),altura(b->esq)) +1;
+    a->alt=max(altura(a->dir),altura(a->esq)) +1;
     return b;
 }
 
@@ -37,6 +50,7 @@ AVL insertAVL(AVL a, int x) {
         new=malloc(sizeof(struct AVL));
         new->valor=x;
         new->dir=new->esq=NULL;
+        new->alt=1;
         a=new;
         return a; 
     }  
@@ -44,7 +58,24 @@ AVL insertAVL(AVL a, int x) {
         a->esq  = insertAVL(a->esq, x); 
     else if (x > a->valor) 
         a->dir = insertAVL(a->dir, x);    
-    return a; 
+    else return a; 
+    a->alt=1+max(altura(a->esq),altura(a->dir));
+    int bal = (altura(a->esq))-(altura(a->dir));
+    if (bal > 1 && x < a->esq->valor) 
+        return rotateR(a); 
+    if (bal < -1 && x > a->dir->valor) 
+        return rotateL(a); 
+    if (bal > 1 && x > a->esq->valor) 
+    { 
+        a->esq =  rotateL(a->esq); 
+        return rotateR(a); 
+    } 
+    if (bal < -1 && x < a->dir->valor) 
+    { 
+        a->dir = rotateR(a->dir); 
+        return rotateL(a); 
+    } 
+    return a;
 }
 
 void printAVL (AVL a, int i) {
