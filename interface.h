@@ -15,6 +15,8 @@ typedef struct SGV SGV;
 
 typedef struct AVL *AVL;
 
+AVL rotateR(AVL a);
+AVL rotateL(AVL a);
 AVL insertAVL(AVL a, int x);
 void printAVL(AVL a, int i);
 int valvenda(char * a,float b,int c,char d,char * e,int f,int g);

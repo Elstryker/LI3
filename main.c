@@ -16,7 +16,10 @@ int main(int argc, const char * argv[]) {
     do {
     printf("Insere um numero\n");
     scanf("%d",&x);
-    a=insertAVL(a,x);
+    printf(" ");
+    if(x==50) {a=rotateL(a);}
+    else if(x==25) a=rotateR(a);
+    else {if(x!=0) a=insertAVL(a,x);}
     printAVL(a,0);
     } while(x!=0);
     return 0;

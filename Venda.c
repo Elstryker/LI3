@@ -16,6 +16,21 @@ struct SGV {
     int **filiais;
 };
 
+AVL rotateR(AVL a) {
+    AVL b=a->esq;
+    a->esq=b->dir;
+    b->dir=a;
+    return b;
+
+}
+
+AVL rotateL(AVL a) {
+    AVL b=a->dir;
+    a->dir=b->esq;
+    b->esq=a;
+    return b;
+}
+
 AVL insertAVL(AVL a, int x) { 
     if (a == NULL) {
         AVL new=NULL;
@@ -36,7 +51,7 @@ void printAVL (AVL a, int i) {
     int j;
     if (a==NULL) return;
     printAVL(a->dir,i+1);
-    for(j=0;j<i;j++) printf(" ");
+    for(j=0;j<i;j++) printf("  ");
     printf("%d\n",a->valor);
     printAVL(a->esq,i+1);
 }
