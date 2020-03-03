@@ -2,8 +2,8 @@
 //  Venda.h
 //  LI3
 //
-//  Created by Rúben Cerqueira on 20/02/2020.
-//  Copyright © 2020 Rúben Cerqueira. All rights reserved.
+//  Created by Rúben Cerqueira, Júlio Alves and Alexandra Reigada on 20/02/2020.
+//  Copyright © 2020 Rúben Cerqueira, Júlio Alves and Alexandra Reigada. All rights reserved.
 //
 
 #ifndef interface_h

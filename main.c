@@ -2,8 +2,8 @@
 //  main.c
 //  LI3
 //
-//  Created by Rúben Cerqueira on 13/02/2020.
-//  Copyright © 2020 Rúben Cerqueira. All rights reserved.
+//  Created by Rúben Cerqueira, Júlio Alves and Alexandra Reigada on 13/02/2020.
+//  Copyright © 2020 Rúben Cerqueira, Júlio Alves and Alexandra Reigada. All rights reserved.
 //
 #include "interface.h"
 #include <stdio.h>
