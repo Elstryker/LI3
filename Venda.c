@@ -116,3 +116,9 @@ int findProd(char *prod,char **produtos){
     
     return i;
 }
+
+
+
+SGV initSGV() {
+    
+}
