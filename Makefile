@@ -1,8 +1,10 @@
 CC = gcc
 CFLAGS = -Wall
-Venda: Venda.o main.o
-Venda.o: Venda.c interface.h
-main.o:  main.c
+SGV: Venda.o main.o Cliente.o Produto.o
+Cliente.o: Cliente.c Cliente.h
+Produto.o: Produto.c Produto.h
+Venda.o: Venda.c Venda.h
+main.o:  main.c interface.h
 clean:
-	rm Venda *.o
+	rm SGV *.o
 
