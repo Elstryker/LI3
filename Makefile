@@ -1,10 +1,7 @@
 CC = gcc
-CFLAGS = -Wall
-SGV: Venda.o main.o Cliente.o Produto.o
-Cliente.o: Cliente.c Cliente.h
-Produto.o: Produto.c Produto.h
-Venda.o: Venda.c Venda.h
-main.o:  main.c interface.h
+CFLAGS =-I -Wall
+SGV: Cliente.o main.o Produto.o Venda.o
+	$(CC) -o SGV Cliente.o main.o Produto.o Venda.o
 clean:
 	rm SGV *.o
 

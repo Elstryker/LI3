@@ -16,4 +16,6 @@ int main(int argc, const char * argv[]) {
         printf("Erro: ficheiro não encontrado");
         return 1;
     }
+    else printf("Ola Mundo\n");
+    return 0;
 }
