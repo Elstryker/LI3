@@ -32,6 +32,7 @@ void printAVLP(AVLP a,char* i);
 
 
 Venda initVenda();
+void destroyVenda(Venda v);
 char getPromo(AVLP a);
 int getQuantity(AVLP a);
 float getPrice(AVLP a);

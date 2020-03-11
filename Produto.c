@@ -18,7 +18,7 @@ Produto initProduto(){
 
 void destroyProduto(Produto p){
     int i;
-    for(i=25;i>=0;i++) free(p[i]);
+    for(i=25;i>=0;i--) free(p[i]);
 }
 
 void readFiletoProduto(Produto p, FILE* f) {

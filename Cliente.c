@@ -18,7 +18,7 @@ Cliente initCliente(){
 
 void destroyCliente(Cliente c){
     int i;
-    for(i=25;i>=0;i++) free(c[i]);
+    for(i=25;i>=0;i--) free(c[i]);
 }
 
 void readFiletoCliente(Cliente c, FILE* f) {

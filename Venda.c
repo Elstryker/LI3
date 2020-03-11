@@ -209,6 +209,15 @@ Venda initVenda() {
     }
 }
 
+void destroyVenda(Venda v) {
+    int i,j;
+    for(i=2;i>=0;i--) {
+        for(j=11;j>=0;j--) {
+            free(v[i][j]);
+        }
+    }
+}
+
 float getPrice(AVLP a) {
     return a->price;
 }
