@@ -27,7 +27,7 @@ int altura(AVL a);
 int max(int a,int b);
 AVL rotateR(AVL a);
 AVL rotateL(AVL a);
-AVL insertAVL(AVL a, int x);
+AVL insertAVL(AVL a,char* x);
 void printAVL(AVL a, int i);
 int valvenda(char * a,float b,int c,char d,char * e,int f,int g);
 int findProd(char *a, char **b);
