@@ -7,17 +7,18 @@
 #include <stdio.h>
 
 typedef struct AVL *AVL;
+
 typedef AVL *Produto;
 
 Produto initProduto();
 void destroyProduto(Produto p);
 void readFiletoProduto(Produto p, FILE* f);
-int compareKey(char* s1, char* s2);
-int altura(AVL a);
-int max(int a,int b);
-AVL rotateR(AVL a);
-AVL rotateL(AVL a);
-AVL insertAVL(AVL a,char* x);
-void printAVL(AVL a, int i);
+int altura2(AVL a);
+int max2(int a,int b);
+AVL rotateR2(AVL a);
+AVL rotateL2(AVL a);
+AVL insertAVL2(AVL a,char* x);
+void printAVL2(AVL a, int i);
+int inorderAVL(AVL a);
 
 #endif 

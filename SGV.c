@@ -1,7 +1,4 @@
 #include "interface.h"
-#include "Cliente.h"
-#include "Produto.h"
-#include "Venda.h"
 
 SGV initSGV() {
     SGV a;
@@ -11,28 +8,36 @@ SGV initSGV() {
     return a;
 }
 
-
-// A XANA ACHA QUE NÃO É ASSIM, ACHA QUE TEM DE SE DESTRUIR UMA SGV EXISTENTE NA MAIN
-SGV destroySGV() {
-    SGV a;
+void destroySGV(SGV a) {
     destroyProduto(a.p);
     destroyCliente(a.c);
     destroyVenda(a.v);
-    return a;
 }
 
-SGV loadSGVFromFiles(SGV sgv,char * path) {
-    readFiletoCliente(sgv.c,*path);
-    readFiletoProduto(sgv.p,*path);
+SGV loadSGVFromFiles(SGV sgv) {
+    FILE* cliente, *produto, *venda;
+    cliente=fopen("Clientes.txt","r");
+    produto=fopen("Produtos.txt","r");
+    venda=fopen("Vendas_1M.txt","r");
+    if(cliente==NULL || produto==NULL || venda==NULL) {
+        printf("Erro: ficheiro não encontrado");
+        exit(1);
+    }
+    readFiletoCliente(sgv.c,cliente);
+    readFiletoProduto(sgv.p,produto);
     //não temos readFiletoVenda
+    fclose(cliente);
+    fclose(produto);
+    fclose(venda);
+    return sgv;
 }
 
-AVL getProductsStartedByLetter (SGV sgv, char letter) {
-   AVL prod;    //SERÁ ASSIM, RUBEN?
-   int i= letter-65;
-   prod=sgv.p[i]; 
-   return prod;
-
+void getProductsStartedByLetter (SGV sgv, char letter) {
+   AVL prod;
+   int i=letter-65;
+   prod=getAVL(sgv,i);
+   int contador=inorderAVL(prod);
+   printf("%d",contador);
 }
 
 /*
@@ -75,3 +80,8 @@ Produto getTopSelledProducts(SGV sgv, int limit) {
 Produto getClientTopProfitProducts(SGV sgv, char * clientID, int limit) {
     
 }*/
+
+
+AVL getAVL(SGV a, int index) {
+    return a.p[index];
+}

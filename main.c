@@ -8,16 +8,11 @@
 #include "interface.h"
 
 int main(int argc, const char * argv[]) {
-    FILE *cliente,*produto,*venda;
     SGV a;
-    cliente=fopen("Clientes.txt","r");
-    produto=fopen("Produtos.txt","r");
-    venda=fopen("Vendas_1M.txt","r");
-    if(cliente==NULL || produto==NULL || venda==NULL) {
-        printf("Erro: ficheiro não encontrado");
-        return 1;
-    }
-    else printf("Ola Mundo\n");
- 
+    int contador;
+    a=initSGV();
+    a=loadSGVFromFiles(a);
+    contador=inorderAVL(a.c[1]);
+    printf("%d\n",contador);
     return 0;
 }

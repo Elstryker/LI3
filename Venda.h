@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
 
 typedef struct AVLC *AVLC;
 typedef struct AVLP *AVLP;
@@ -10,22 +12,21 @@ typedef struct AVLP *AVLP;
 typedef AVLC **Venda;
 
 int alturaC(AVLC a);
-int max(int a,int b);
+int max3(int a,int b);
 AVLC rotateRC(AVLC a);
 AVLC rotateLC(AVLC a);
 AVLC insertAVLC(AVLC a,char* x);
-void printAVLC(AVLC a,char* i);
+void printAVLC(AVLC a,int i);
 
 
 //------------------------------------------------------------------------------------------------------------//
 
 
 int alturaP(AVLP a);
-int max(int a,int b);
 AVLP rotateRp(AVLP a);
 AVLP rotateLP(AVLP a);
 AVLP insertAVLP(AVLP a,char* x,float price,int quantity,char promo);
-void printAVLP(AVLP a,char* i);
+void printAVLP(AVLP a,int i);
 
 
 //------------------------------------------------------------------------------------------------------------//

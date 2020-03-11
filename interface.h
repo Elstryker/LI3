@@ -24,9 +24,9 @@ typedef struct SGV{
 } SGV;
 
 SGV initSGV();
-SGV destroySGV();
-SGV loadSGVFromFiles(SGV sgv,char * filesFolderPath);
-AVL getProductsStartedByLetter (SGV sgv, char letter);
+void destroySGV(SGV a);
+SGV loadSGVFromFiles(SGV sgv);
+void getProductsStartedByLetter (SGV sgv, char letter);
 void getProductsSalesAndProfit (SGV sgv, char * productID, int month);
 Produto getProductsNeverBought (SGV sgv, int branchID);
 Cliente getClientsOfAllBranches(SGV sgv);
@@ -37,6 +37,9 @@ Cliente getProductBuyers (SGV sgv, char * productID, int branch);
 Produto getClientFavoriteProducts (SGV sgv, char* clientID, int month);
 Produto getTopSelledProducts(SGV sgv, int limit);
 Produto getClientTopProfitProducts(SGV sgv, char * clientID, int limit);
+
+
+AVL getAVL(SGV a,int index);
 
 
 #endif 

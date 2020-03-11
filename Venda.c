@@ -38,14 +38,6 @@ int valvenda(char *prod,float prec,int un,char prom,char *cli,int mes,int super)
     
 }
 
-int compareKey(char* s1, char* s2) {
-    int i;
-    for(i=0;s1[i]!='\0';i++) {
-        if(s1[i]!=s2[i]) return s1[i]-s2[i];
-    }
-    return 0;
-}
-
 int alturaC(AVLC a) {
     int i;
     if(a==NULL) {
@@ -59,8 +51,8 @@ AVLC rotateRC(AVLC a) {
     AVLC b=a->left;
     a->left=b->right;
     b->right=a;
-    b->height=max(alturaC(b->right),alturaC(b->left)) +1;
-    a->height=max(alturaC(a->right),alturaC(a->left)) +1;
+    b->height=max3(alturaC(b->right),alturaC(b->left)) +1;
+    a->height=max3(alturaC(a->right),alturaC(a->left)) +1;
     return b;
 }
 
@@ -68,8 +60,8 @@ AVLC rotateLC(AVLC a) {
     AVLC b=a->right;
     a->right=b->left;
     b->left=a;
-    b->height=max(alturaC(b->right),alturaC(b->left)) +1;
-    a->height=max(alturaC(a->right),alturaC(a->left)) +1;
+    b->height=max3(alturaC(b->right),alturaC(b->left)) +1;
+    a->height=max3(alturaC(a->right),alturaC(a->left)) +1;
     return b;
 }
 
@@ -84,21 +76,21 @@ AVLC insertAVLC(AVLC a,char* x) {
         a=new;
         return a; 
     }  
-    if(compareKey(a->key,x)>0) a->left = insertAVLC(a->left,x);
-    else if(compareKey(a->key,x)<0) a->right = insertAVLC(a->right,x);  
+    if(strcmp(a->key,x)>0) a->left = insertAVLC(a->left,x);
+    else if(strcmp(a->key,x)<0) a->right = insertAVLC(a->right,x);  
     else return a; 
-    a->height=1+max(alturaC(a->left),alturaC(a->right));
+    a->height=1+max3(alturaC(a->left),alturaC(a->right));
     int bal = (alturaC(a->left))-(alturaC(a->right));
-    if (bal > 1 && x < a->left->key) 
+    if (bal > 1 && strcmp(x,a->left->key)<0) 
         return rotateRC(a); 
-    if (bal < -1 && x > a->right->key) 
+    if (bal < -1 && strcmp(x,a->right->key)>0) 
         return rotateLC(a); 
-    if (bal > 1 && x > a->left->key) 
+    if (bal > 1 && strcmp(x,a->left->key)>0) 
     { 
         a->left =  rotateLC(a->left); 
         return rotateRC(a); 
     } 
-    if (bal < -1 && x < a->right->key) 
+    if (bal < -1 && strcmp(x,a->right->key)<0) 
     { 
         a->right = rotateRC(a->right); 
         return rotateLC(a); 
@@ -106,7 +98,7 @@ AVLC insertAVLC(AVLC a,char* x) {
     return a;
 }
 
-void printAVLC (AVLC a,char* i) {
+void printAVLC (AVLC a,int i) {
     int j;
     if (a==NULL) return;
     printAVLC(a->right,i+1);
@@ -126,7 +118,7 @@ int alturaP(AVLP a) {
     return i;
 }
 
-int max(int a,int b) {
+int max3(int a,int b) {
     return (a>b?a:b);
 }
 
@@ -134,8 +126,8 @@ AVLP rotateRP(AVLP a) {
     AVLP b=a->left;
     a->left=b->right;
     b->right=a;
-    b->height=max(alturaP(b->right),alturaP(b->left)) +1;
-    a->height=max(alturaP(a->right),alturaP(a->left)) +1;
+    b->height=max3(alturaP(b->right),alturaP(b->left)) +1;
+    a->height=max3(alturaP(a->right),alturaP(a->left)) +1;
     return b;
 }
 
@@ -143,8 +135,8 @@ AVLP rotateLP(AVLP a) {
     AVLP b=a->right;
     a->right=b->left;
     b->left=a;
-    b->height=max(alturaP(b->right),alturaP(b->left)) +1;
-    a->height=max(alturaP(a->right),alturaP(a->left)) +1;
+    b->height=max3(alturaP(b->right),alturaP(b->left)) +1;
+    a->height=max3(alturaP(a->right),alturaP(a->left)) +1;
     return b;
 }
 
@@ -161,21 +153,21 @@ AVLP insertAVLP(AVLP a,char* x,float price,int quantity,char promo) {
         a=new;
         return a; 
     }  
-    if(compareKey(a->key,x)>0) a->left = insertAVLP(a->left,x,price,quantity,promo);
-    else if(compareKey(a->key,x)<0) a->right = insertAVLP(a->right,x,price,quantity,promo);  
+    if(strcmp(a->key,x)>0) a->left = insertAVLP(a->left,x,price,quantity,promo);
+    else if(strcmp(a->key,x)<0) a->right = insertAVLP(a->right,x,price,quantity,promo);  
     else return a; 
-    a->height=1+max(alturaP(a->left),alturaP(a->right));
+    a->height=1+max3(alturaP(a->left),alturaP(a->right));
     int bal = (alturaP(a->left))-(alturaP(a->right));
-    if (bal > 1 && x < a->left->key) 
+    if (bal > 1 && strcmp(x,a->left->key)<0) 
         return rotateRP(a); 
-    if (bal < -1 && x > a->right->key) 
+    if (bal < -1 && strcmp(x,a->right->key)>0) 
         return rotateLP(a); 
-    if (bal > 1 && x > a->left->key) 
+    if (bal > 1 && strcmp(x,a->left->key)>0) 
     { 
         a->left =  rotateLP(a->left); 
         return rotateRP(a); 
     } 
-    if (bal < -1 && x < a->right->key) 
+    if (bal < -1 && strcmp(x,a->right->key)<0) 
     { 
         a->right = rotateRP(a->right); 
         return rotateLP(a); 
@@ -183,7 +175,7 @@ AVLP insertAVLP(AVLP a,char* x,float price,int quantity,char promo) {
     return a;
 }
 
-void printAVLP (AVLP a,char* i) {
+void printAVLP (AVLP a,int i) {
     int j;
     if (a==NULL) return;
     printAVLP(a->right,i+1);
@@ -207,6 +199,7 @@ Venda initVenda() {
             a[i][j]=NULL;
         }
     }
+    return a;
 }
 
 void destroyVenda(Venda v) {

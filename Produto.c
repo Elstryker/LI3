@@ -23,22 +23,15 @@ void destroyProduto(Produto p){
 
 void readFiletoProduto(Produto p, FILE* f) {
     char*buffer;
-    while(feof(f)) {
+    buffer=(char*) malloc(9*sizeof(char));
+    while(feof(f)==0) {
         fgets(buffer,8,f);
         strtok(buffer," \r\n");
-        p=insertAVL(p[buffer[0]-65],buffer);
+        p[buffer[0]-65]=insertAVL2(p[buffer[0]-65],buffer);
     }
 }
 
-int compareKey(char* s1, char* s2) {
-    int i;
-    for(i=0;s1[i]!='\0';i++) {
-        if(s1[i]!=s2[i]) return s1[i]-s2[i];
-    }
-    return 0;
-}
-
-int altura(AVL a) {
+int altura2(AVL a) {
     int i;
     if(a==NULL) {
         i=0;
@@ -47,65 +40,85 @@ int altura(AVL a) {
     return i;
 }
 
-int max(int a,int b) {
+int max2(int a,int b) {
     return (a>b?a:b);
 }
 
-AVL rotateR(AVL a) {
-    AVL b=a->left;
-    a->left=b->right;
-    b->right=a;
-    b->height=max(altura(b->right),altura(b->left)) +1;
-    a->height=max(altura(a->right),altura(a->left)) +1;
-    return b;
+AVL rotateR2(AVL y)
+{
+    AVL x = y->left;
+    AVL T2 = x->right;
+    x->right = y;
+    y->left = T2;
+    y->height = max2(altura2(y->left), altura2(y->right))+1;
+    x->height = max2(altura2(x->left), altura2(x->right))+1;
+    return x;
 }
 
-AVL rotateL(AVL a) {
-    AVL b=a->right;
-    a->right=b->left;
-    b->left=a;
-    b->height=max(altura(b->right),altura(b->left)) +1;
-    a->height=max(altura(a->right),altura(a->left)) +1;
-    return b;
+AVL rotateL2(AVL x)
+{
+    AVL y = x->right;
+    AVL T2 = y->left;
+    y->left = x;
+    x->right = T2;
+    x->height = max2(altura2(x->left), altura2(x->right))+1;
+    y->height = max2(altura2(y->left), altura2(y->right))+1;
+    return y;
 }
 
-AVL insertAVL(AVL a,char* x) { 
-    if (a == NULL) {
+AVL insertAVL2(AVL node,char* key)
+{
+    if (node == NULL){
         AVL new=NULL;
         new=malloc(sizeof(struct AVL));
-        new->key=strdup(x);
+        new->key=strdup(key);
         new->right=new->left=NULL;
         new->height=1;
-        a=new;
-        return a; 
-    }  
-    if(compareKey(a->key,x)>0) a->left = insertAVL(a->left,x);
-    else if(compareKey(a->key,x)<0) a->right = insertAVL(a->right,x);  
-    else return a; 
-    a->height=1+max(altura(a->left),altura(a->right));
-    int bal = (altura(a->left))-(altura(a->right));
-    if (bal > 1 && x < a->left->key) 
-        return rotateR(a); 
-    if (bal < -1 && x > a->right->key) 
-        return rotateL(a); 
-    if (bal > 1 && x > a->left->key) 
-    { 
-        a->left =  rotateL(a->left); 
-        return rotateR(a); 
-    } 
-    if (bal < -1 && x < a->right->key) 
-    { 
-        a->right = rotateR(a->right); 
-        return rotateL(a); 
-    } 
-    return a;
+        node=new;
+        return node;
+    }
+    if (strcmp(key,node->key)<0)
+        node->left  = insertAVL2(node->left, key);
+    else if (strcmp(key,node->key)>0)
+        node->right = insertAVL2(node->right, key);
+    else
+        return node;
+    node->height = 1 + max2(altura2(node->left),
+                           altura2(node->right));
+    int balance = (altura2(node->left))-(altura2(node->right));
+    if (balance > 1 && strcmp(key,node->left->key)<0)
+        return rotateR2(node);
+    if (balance < -1 && strcmp(key,node->right->key)>0)
+        return rotateL2(node);
+    if (balance > 1 && strcmp(key,node->left->key)>0)
+    {
+        node->left =  rotateL2(node->left);
+        return rotateR2(node);
+    }
+    if (balance < -1 && strcmp(key,node->right->key)<0)
+    {
+        node->right = rotateR2(node->right);
+        return rotateL2(node);
+    }
+    return node;
 }
 
-void printAVL (AVL a, int i) {
+void printAVL2 (AVL a, int i) {
     int j;
     if (a==NULL) return;
-    printAVL(a->right,i+1);
+    printAVL2(a->right,i+1);
     for(j=0;j<i;j++) printf("  ");
-    printf("%d\n",a->key);
-    printAVL(a->left,i+1);
+    puts(a->key);
+    printAVL2(a->left,i+1);
+}
+
+int inorderAVL(AVL a) {
+    int contador=0;
+    if (a) {
+        contador+=inorderAVL(a->left);
+        puts(a->key);
+        contador++;
+        contador+=inorderAVL(a->right);
+    }
+    return contador;
 }
