@@ -22,7 +22,9 @@ typedef struct SGV{
     Produto p;
     Venda v;
 } SGV;
-
+SGV initSGV();
+SGV destroySGV();
+SGV loadSGVFromFiles(SGV sgv,char * filesFolderPath);
 Produto getProductsStartedByLetter (SGV sgv, char letter);
 void getProductsSalesAndProfit (SGV sgv, char * productID, int month);
 Produto getProductsNeverBought (SGV sgv, int branchID);
