@@ -9,17 +9,19 @@
 #ifndef interface_h
 #define interface_h
 
+#include "Cliente.h"
+#include "Produto.h"
+#include "Venda.h"
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 typedef struct SGV{
-    int ***produtos;
-    int ***clientes;
-    int ***filiais;
+    AVL **produtos;
+    AVL *clientes;
+    AVL *filiais;
 } SGV;
-typedef struct AVL *AVL;
 
 int altura(AVL a);
 int max(int a,int b);

@@ -1,18 +1,50 @@
-#include "interface.h"
+#include "Cliente.h"
 
 struct AVL {
-    int valor;
-    int alt;
-    struct AVL* dir;
-    struct AVL* esq;
+    char* key;
+    int height;
+    struct AVL* right;
+    struct AVL* left;
 };
+
+Cliente initCliente(){
+    Cliente c;
+    c=malloc(26*sizeof(struct AVL*));
+    for(int i=0;i<26;i++) {
+        c[i]=NULL;
+    }
+    return c;
+}
+
+void destroyCliente(Cliente c){
+    int i;
+    for(i=25;i>=0;i++) free(c[i]);
+}
+
+void readFiletoCliente(Cliente c, FILE* f) {
+    char*buffer;
+    while(feof(f)) {
+        fgets(buffer,8,f);
+        strtok(buffer," \r\n");
+        c=insertAVL(c[buffer[0]-65],buffer);
+    }
+
+}
+
+int compareKey(char* s1, char* s2) {
+    int i;
+    for(i=0;s1[i]!='\0';i++) {
+        if(s1[i]!=s2[i]) return s1[i]-s2[i];
+    }
+    return 0;
+}
 
 int altura(AVL a) {
     int i;
     if(a==NULL) {
         i=0;
     }
-    else i=a->alt;
+    else i=a->height;
     return i;
 }
 
@@ -21,52 +53,50 @@ int max(int a,int b) {
 }
 
 AVL rotateR(AVL a) {
-    AVL b=a->esq;
-    a->esq=b->dir;
-    b->dir=a;
-    b->alt=max(altura(b->dir),altura(b->esq)) +1;
-    a->alt=max(altura(a->dir),altura(a->esq)) +1;
+    AVL b=a->left;
+    a->left=b->right;
+    b->right=a;
+    b->height=max(altura(b->right),altura(b->left)) +1;
+    a->height=max(altura(a->right),altura(a->left)) +1;
     return b;
 }
 
 AVL rotateL(AVL a) {
-    AVL b=a->dir;
-    a->dir=b->esq;
-    b->esq=a;
-    b->alt=max(altura(b->dir),altura(b->esq)) +1;
-    a->alt=max(altura(a->dir),altura(a->esq)) +1;
+    AVL b=a->right;
+    a->right=b->left;
+    b->left=a;
+    b->height=max(altura(b->right),altura(b->left)) +1;
+    a->height=max(altura(a->right),altura(a->left)) +1;
     return b;
 }
 
-AVL insertAVL(AVL a, int x) { 
+AVL insertAVL(AVL a,char* x) { 
     if (a == NULL) {
         AVL new=NULL;
         new=malloc(sizeof(struct AVL));
-        new->valor=x;
-        new->dir=new->esq=NULL;
-        new->alt=1;
+        new->key=strdup(x);
+        new->right=new->left=NULL;
+        new->height=1;
         a=new;
         return a; 
     }  
-    if (x < a->valor) 
-        a->esq  = insertAVL(a->esq, x); 
-    else if (x > a->valor) 
-        a->dir = insertAVL(a->dir, x);    
+    if(compareKey(a->key,x)>0) a->left = insertAVL(a->left,x);
+    else if(compareKey(a->key,x)<0) a->right = insertAVL(a->right,x);  
     else return a; 
-    a->alt=1+max(altura(a->esq),altura(a->dir));
-    int bal = (altura(a->esq))-(altura(a->dir));
-    if (bal > 1 && x < a->esq->valor) 
+    a->height=1+max(altura(a->left),altura(a->right));
+    int bal = (altura(a->left))-(altura(a->right));
+    if (bal > 1 && x < a->left->key) 
         return rotateR(a); 
-    if (bal < -1 && x > a->dir->valor) 
+    if (bal < -1 && x > a->right->key) 
         return rotateL(a); 
-    if (bal > 1 && x > a->esq->valor) 
+    if (bal > 1 && x > a->left->key) 
     { 
-        a->esq =  rotateL(a->esq); 
+        a->left =  rotateL(a->left); 
         return rotateR(a); 
     } 
-    if (bal < -1 && x < a->dir->valor) 
+    if (bal < -1 && x < a->right->key) 
     { 
-        a->dir = rotateR(a->dir); 
+        a->right = rotateR(a->right); 
         return rotateL(a); 
     } 
     return a;
@@ -75,50 +105,8 @@ AVL insertAVL(AVL a, int x) {
 void printAVL (AVL a, int i) {
     int j;
     if (a==NULL) return;
-    printAVL(a->dir,i+1);
+    printAVL(a->right,i+1);
     for(j=0;j<i;j++) printf("  ");
-    printf("%d\n",a->valor);
-    printAVL(a->esq,i+1);
-}
-
-
-int findProd(char *prod,char **produtos){
-    int i=0;
-    for (int j=0;j<171007;j++){
-       if(strcmp(prod,produtos[j]) == 0) i=1;
-    }
-    
-    return i;
-}
-
-
-
-SGV initSGV() {
-    int i;
-    SGV sgv;
-    sgv.produtos = malloc(2*sizeof(int *)); 
-    sgv.filiais = malloc(3*sizeof(int *));
-    sgv.clientes = malloc(2*sizeof(int *));
-    sgv.produtos[0]= malloc(26*sizeof(struct AVL));
-    sgv.produtos[1]= malloc(26*sizeof(struct AVL));
-    sgv.clientes[0]= malloc(26*sizeof(struct AVL));
-    sgv.clientes[1]= malloc(26*sizeof(struct AVL));
-    sgv.filiais[0]= malloc(12*sizeof(struct AVL));
-    sgv.filiais[1]= malloc(12*sizeof(struct AVL));
-    sgv.filiais[2]= malloc(12*sizeof(struct AVL));
-
-    for(i=0;i<2;i++) {
-        for (int j=0;j<26;j++) {
-        (sgv.clientes[i])[j] = NULL;
-        (sgv.produtos[i])[j] = NULL;
-        }
-    }
-
-    for(i=0;i<3;i++) {
-        for(int j=0;j<12;j++) {
-            (sgv.filiais[i])[j] = NULL;
-        }
-    }
-    return sgv;
-
+    printf("%d\n",a->key);
+    printAVL(a->left,i+1);
 }
