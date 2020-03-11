@@ -9,6 +9,7 @@
 
 int main(int argc, const char * argv[]) {
     FILE *cliente,*produto,*venda;
+    SGV a;
     cliente=fopen("Clientes.txt","r");
     produto=fopen("Produtos.txt","r");
     venda=fopen("Vendas_1M.txt","r");
@@ -17,5 +18,6 @@ int main(int argc, const char * argv[]) {
         return 1;
     }
     else printf("Ola Mundo\n");
+ 
     return 0;
 }

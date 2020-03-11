@@ -4,21 +4,38 @@
 #include "Venda.h"
 
 SGV initSGV() {
-
+    SGV a;
+    a.p = initProduto();
+    a.c = initCliente();
+    a.v = initVenda();
+    return a;
 }
 
+
+// A XANA ACHA QUE NÃO É ASSIM, ACHA QUE TEM DE SE DESTRUIR UMA SGV EXISTENTE NA MAIN
 SGV destroySGV() {
+    SGV a;
+    destroyProduto(a.p);
+    destroyCliente(a.c);
+    destroyVenda(a.v);
+    return a;
+}
+
+SGV loadSGVFromFiles(SGV sgv,char * path) {
+    readFiletoCliente(sgv.c,*path);
+    readFiletoProduto(sgv.p,*path);
+    //não temos readFiletoVenda
+}
+
+AVL getProductsStartedByLetter (SGV sgv, char letter) {
+   AVL prod;    //SERÁ ASSIM, RUBEN?
+   int i= letter-65;
+   prod=sgv.p[i]; 
+   return prod;
 
 }
 
-SGV loadSGVFromFiles(SGV sgv,char * filesFolderPath) {
-
-}
-
-Produto getProductsStartedByLetter (SGV sgv, char letter) {
-
-}
-
+/*
 void getProductsSalesAndProfit (SGV sgv, char * productID, int month) {
 
 }
@@ -57,4 +74,4 @@ Produto getTopSelledProducts(SGV sgv, int limit) {
 
 Produto getClientTopProfitProducts(SGV sgv, char * clientID, int limit) {
     
-}
+}*/
