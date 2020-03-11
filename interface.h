@@ -18,19 +18,10 @@
 #include <stdio.h>
 
 typedef struct SGV{
-    AVL **produtos;
-    AVL *clientes;
-    AVL *filiais;
+    Cliente c;
+    Produto p;
+    Venda v;
 } SGV;
-
-int altura(AVL a);
-int max(int a,int b);
-AVL rotateR(AVL a);
-AVL rotateL(AVL a);
-AVL insertAVL(AVL a,char* x);
-void printAVL(AVL a, int i);
-int valvenda(char * a,float b,int c,char d,char * e,int f,int g);
-int findProd(char *a, char **b);
 
 Produto getProductsStartedByLetter (SGV sgv, char letter);
 void getProductsSalesAndProfit (SGV sgv, char * productID, int month);
