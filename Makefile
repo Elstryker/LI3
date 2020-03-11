@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS =-I -Wall
+CFLAGS =-I -g -Wall
 SGV: Cliente.o main.o Produto.o Venda.o SGV.o
 	$(CC) -o SGV Cliente.o main.o Produto.o Venda.o SGV.o
 clean:
