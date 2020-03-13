@@ -1,41 +1,51 @@
 #include "Venda.h"
 
-struct AVLC {
-    char* key;
-    int height;
-    struct AVLP *prod;
-    struct AVLC *right;
-    struct AVLC *left;
-};
-
-struct AVLP {
-    char* key;
-    int height;
-    float price;
-    int quant;
-    char promo;
-    struct AVLP *right;
-    struct AVLP *left;
-};
-
-int valvenda(char *prod,float prec,int un,char prom,char *cli,int mes,int super) {
+int valvenda(char *prod,float price,int quant,char prom,char *cli,int mes,int filial) {
     int i=0;
     if (isupper(prod[0]) && isupper(prod[1]) && isdigit(prod[2]) && isdigit(prod[3]) && isdigit(prod[4]) && isdigit(prod[5]))
     {
-        
-        if (prec>=0 && un>=0 && (mes>0 && mes<13) && (super>0 && super <4) && (prom=='N' || prom == 'P'))
-       
+        if (price>=0 && quant>=0 && (mes>0 && mes<13) && (filial>0 && filial <4) && (prom=='N' || prom == 'P'))
         {
-           
-            if (isupper(cli[0]) && isdigit(cli[1]) && isdigit(cli[2]) && isdigit(cli[3]) && isdigit(cli[4])) i=1;
-                
-        }
-               
+            if (isupper(cli[0]) && isdigit(cli[1]) && isdigit(cli[2]) && isdigit(cli[3]) && isdigit(cli[4])) i=1;      
+        }        
     }
-    
-    
     return i;
-    
+}
+
+AVLC lookupAVLC(AVLC a, char* key) {
+    AVLC r=NULL;
+    if(a) {
+        int i=strcmp(a->key,key);
+        if(i>0) r=lookupAVLC(a->left,key);
+        else if(i<0) r=lookupAVLC(a->right,key);
+        else r=a;  
+    }
+    return r;
+}
+
+void readFiletoVenda(Venda v, FILE* f) {
+    char*prod, *cli = NULL, prom = '\0', *buffer;
+    float price = 0;
+    int quant = 0, mes = 0, filial = 0;
+    char* eti;
+    AVLC treeC;
+    buffer=(char*) malloc(35*sizeof(char));
+    while(feof(f)==0) {
+        fgets(buffer,35, f);
+        strtok(buffer,"\r\n");
+        prod=strdup(strtok(buffer, " "));
+        if(((eti=(strtok(NULL, " ")))!=NULL)) price=atof(eti);
+        if(((eti=(strtok(NULL, " ")))!=NULL)) quant=atoi(eti);
+        if(((eti=(strtok(NULL, " ")))!=NULL)) prom=(*eti);
+        if(((eti=(strtok(NULL, " ")))!=NULL)) cli=strdup(eti);
+        if(((eti=(strtok(NULL, " ")))!=NULL)) mes=atoi(eti)-1;
+        if(((eti=(strtok(NULL, " ")))!=NULL)) filial=atoi(eti)-1;
+        if (valvenda(prod,price,quant,prom,cli,mes,filial) == 1) {
+            v[filial][mes]=insertAVLC(v[filial][mes],cli);
+            treeC=lookupAVLC(v[filial][mes],cli);
+            (treeC->prod)=insertAVLP(treeC->prod,prod,price,quant,prom);
+        }
+    }
 }
 
 int alturaC(AVLC a) {
@@ -47,62 +57,71 @@ int alturaC(AVLC a) {
     return i;
 }
 
-AVLC rotateRC(AVLC a) {
-    AVLC b=a->left;
-    a->left=b->right;
-    b->right=a;
-    b->height=max3(alturaC(b->right),alturaC(b->left)) +1;
-    a->height=max3(alturaC(a->right),alturaC(a->left)) +1;
-    return b;
+AVLC rotateRC(AVLC y)
+{
+    AVLC x = y->left;
+    AVLC T2 = x->right;
+    x->right = y;
+    y->left = T2;
+    y->height = max3(alturaC(y->left), alturaC(y->right))+1;
+    x->height = max3(alturaC(x->left), alturaC(x->right))+1;
+    return x;
 }
 
-AVLC rotateLC(AVLC a) {
-    AVLC b=a->right;
-    a->right=b->left;
-    b->left=a;
-    b->height=max3(alturaC(b->right),alturaC(b->left)) +1;
-    a->height=max3(alturaC(a->right),alturaC(a->left)) +1;
-    return b;
+AVLC rotateLC(AVLC x)
+{
+    AVLC y = x->right;
+    AVLC T2 = y->left;
+    y->left = x;
+    x->right = T2;
+    x->height = max3(alturaC(x->left), alturaC(x->right))+1;
+    y->height = max3(alturaC(y->left), alturaC(y->right))+1;
+    return y;
 }
 
-AVLC insertAVLC(AVLC a,char* x) { 
-    if (a == NULL) {
+AVLC insertAVLC(AVLC node,char* key)
+{
+    if (node == NULL){
         AVLC new=NULL;
         new=malloc(sizeof(struct AVLC));
-        new->key=strdup(x);
+        new->key=strdup(key);
         new->prod=NULL;
         new->right=new->left=NULL;
         new->height=1;
-        a=new;
-        return a; 
-    }  
-    if(strcmp(a->key,x)>0) a->left = insertAVLC(a->left,x);
-    else if(strcmp(a->key,x)<0) a->right = insertAVLC(a->right,x);  
-    else return a; 
-    a->height=1+max3(alturaC(a->left),alturaC(a->right));
-    int bal = (alturaC(a->left))-(alturaC(a->right));
-    if (bal > 1 && strcmp(x,a->left->key)<0) 
-        return rotateRC(a); 
-    if (bal < -1 && strcmp(x,a->right->key)>0) 
-        return rotateLC(a); 
-    if (bal > 1 && strcmp(x,a->left->key)>0) 
-    { 
-        a->left =  rotateLC(a->left); 
-        return rotateRC(a); 
-    } 
-    if (bal < -1 && strcmp(x,a->right->key)<0) 
-    { 
-        a->right = rotateRC(a->right); 
-        return rotateLC(a); 
-    } 
-    return a;
+        node=new;
+        return node;
+    }
+    if (strcmp(key,node->key)<0)
+        node->left  = insertAVLC(node->left, key);
+    else if (strcmp(key,node->key)>0)
+        node->right = insertAVLC(node->right, key);
+    else
+        return node;
+    node->height = 1 + max3(alturaC(node->left),
+                           alturaC(node->right));
+    int balance = (alturaC(node->left))-(alturaC(node->right));
+    if (balance > 1 && strcmp(key,node->left->key)<0)
+        return rotateRC(node);
+    if (balance < -1 && strcmp(key,node->right->key)>0)
+        return rotateLC(node);
+    if (balance > 1 && strcmp(key,node->left->key)>0)
+    {
+        node->left =  rotateLC(node->left);
+        return rotateRC(node);
+    }
+    if (balance < -1 && strcmp(key,node->right->key)<0)
+    {
+        node->right = rotateRC(node->right);
+        return rotateLC(node);
+    }
+    return node;
 }
 
-void printAVLC (AVLC a,int i) {
+void printAVLC (AVLC a, int i) {
     int j;
     if (a==NULL) return;
     printAVLC(a->right,i+1);
-    for(j=0;j<i;j++) printf("  ");
+    for(j=0;j<i;j++) printf("    ");
     puts(a->key);
     printAVLC(a->left,i+1);
 }
@@ -122,64 +141,73 @@ int max3(int a,int b) {
     return (a>b?a:b);
 }
 
-AVLP rotateRP(AVLP a) {
-    AVLP b=a->left;
-    a->left=b->right;
-    b->right=a;
-    b->height=max3(alturaP(b->right),alturaP(b->left)) +1;
-    a->height=max3(alturaP(a->right),alturaP(a->left)) +1;
-    return b;
+AVLP rotateRP(AVLP y)
+{
+    AVLP x = y->left;
+    AVLP T2 = x->right;
+    x->right = y;
+    y->left = T2;
+    y->height = max3(alturaP(y->left), alturaP(y->right))+1;
+    x->height = max3(alturaP(x->left), alturaP(x->right))+1;
+    return x;
 }
 
-AVLP rotateLP(AVLP a) {
-    AVLP b=a->right;
-    a->right=b->left;
-    b->left=a;
-    b->height=max3(alturaP(b->right),alturaP(b->left)) +1;
-    a->height=max3(alturaP(a->right),alturaP(a->left)) +1;
-    return b;
+AVLP rotateLP(AVLP x)
+{
+    AVLP y = x->right;
+    AVLP T2 = y->left;
+    y->left = x;
+    x->right = T2;
+    x->height = max3(alturaP(x->left), alturaP(x->right))+1;
+    y->height = max3(alturaP(y->left), alturaP(y->right))+1;
+    return y;
 }
 
-AVLP insertAVLP(AVLP a,char* x,float price,int quantity,char promo) { 
-    if (a == NULL) {
+AVLP insertAVLP(AVLP node, char* key, float price, int quantity, char promo)
+{
+    if (node == NULL){
         AVLP new=NULL;
         new=malloc(sizeof(struct AVLP));
-        new->key=strdup(x);
-        new->price=price;
-        new->promo=promo;
-        new->quant=quantity;
+        new->key=strdup(key);
         new->right=new->left=NULL;
+        new->price=price;
+        new->quant=quantity;
+        new->promo=promo;
         new->height=1;
-        a=new;
-        return a; 
-    }  
-    if(strcmp(a->key,x)>0) a->left = insertAVLP(a->left,x,price,quantity,promo);
-    else if(strcmp(a->key,x)<0) a->right = insertAVLP(a->right,x,price,quantity,promo);  
-    else return a; 
-    a->height=1+max3(alturaP(a->left),alturaP(a->right));
-    int bal = (alturaP(a->left))-(alturaP(a->right));
-    if (bal > 1 && strcmp(x,a->left->key)<0) 
-        return rotateRP(a); 
-    if (bal < -1 && strcmp(x,a->right->key)>0) 
-        return rotateLP(a); 
-    if (bal > 1 && strcmp(x,a->left->key)>0) 
-    { 
-        a->left =  rotateLP(a->left); 
-        return rotateRP(a); 
-    } 
-    if (bal < -1 && strcmp(x,a->right->key)<0) 
-    { 
-        a->right = rotateRP(a->right); 
-        return rotateLP(a); 
-    } 
-    return a;
+        node=new;
+        return node;
+    }
+    if (strcmp(key,node->key)<0)
+        node->left  = insertAVLP(node->left, key, price, quantity, promo);
+    else if (strcmp(key,node->key)>0)
+        node->right = insertAVLP(node->right, key, price, quantity, promo);
+    else
+        return node;
+    node->height = 1 + max3(alturaP(node->left),
+                           alturaP(node->right));
+    int balance = (alturaP(node->left))-(alturaP(node->right));
+    if (balance > 1 && strcmp(key,node->left->key)<0)
+        return rotateRP(node);
+    if (balance < -1 && strcmp(key,node->right->key)>0)
+        return rotateLP(node);
+    if (balance > 1 && strcmp(key,node->left->key)>0)
+    {
+        node->left =  rotateLP(node->left);
+        return rotateRP(node);
+    }
+    if (balance < -1 && strcmp(key,node->right->key)<0)
+    {
+        node->right = rotateRP(node->right);
+        return rotateLP(node);
+    }
+    return node;
 }
 
-void printAVLP (AVLP a,int i) {
+void printAVLP (AVLP a, int i) {
     int j;
     if (a==NULL) return;
     printAVLP(a->right,i+1);
-    for(j=0;j<i;j++) printf("  ");
+    for(j=0;j<i;j++) printf("    ");
     puts(a->key);
     printAVLP(a->left,i+1);
 }

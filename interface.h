@@ -39,7 +39,9 @@ Produto getTopSelledProducts(SGV sgv, int limit);
 Produto getClientTopProfitProducts(SGV sgv, char * clientID, int limit);
 
 
-AVL getAVL(SGV a,int index);
+AVL getAVLLetter(SGV a,char letter);
+AVLC getAVLC(SGV a, int filial, int mes);
+AVLP getAVLP(AVLC a);
 
 
 #endif 

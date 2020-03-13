@@ -6,8 +6,23 @@
 #include <ctype.h>
 #include <string.h>
 
-typedef struct AVLC *AVLC;
-typedef struct AVLP *AVLP;
+typedef struct AVLC{
+    char* key;
+    int height;
+    struct AVLP *prod;
+    struct AVLC *right;
+    struct AVLC *left;
+} *AVLC;
+
+typedef struct AVLP{
+    char* key;
+    int height;
+    float price;
+    int quant;
+    char promo;
+    struct AVLP *right;
+    struct AVLP *left;
+} *AVLP;
 
 typedef AVLC **Venda;
 
@@ -38,5 +53,7 @@ char getPromo(AVLP a);
 int getQuantity(AVLP a);
 float getPrice(AVLP a);
 int valvenda(char *prod,float prec,int un,char prom,char *cli,int mes,int super);
+void readFiletoVenda(Venda v, FILE* f);
+AVLC lookupAVLC(AVLC a, char* key);
 
 #endif 

@@ -1,6 +1,6 @@
 #include "Cliente.h"
 
-struct AVL {
+struct AVL{
     char* key;
     int height;
     struct AVL* right;

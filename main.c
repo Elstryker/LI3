@@ -9,10 +9,9 @@
 
 int main(int argc, const char * argv[]) {
     SGV a;
-    int contador;
     a=initSGV();
     a=loadSGVFromFiles(a);
-    contador=inorderAVL(a.c[1]);
-    printf("%d\n",contador);
+    printf("\n\nDone!\n\n");
+    //getProductsStartedByLetter(a,'B');
     return 0;
 }

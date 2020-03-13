@@ -7,6 +7,7 @@
 #include <stdio.h>
 
 typedef struct AVL *AVL;
+
 typedef AVL *Cliente;
 
 Cliente initCliente();

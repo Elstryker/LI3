@@ -25,7 +25,7 @@ SGV loadSGVFromFiles(SGV sgv) {
     }
     readFiletoCliente(sgv.c,cliente);
     readFiletoProduto(sgv.p,produto);
-    //não temos readFiletoVenda
+    readFiletoVenda(sgv.v,venda);
     fclose(cliente);
     fclose(produto);
     fclose(venda);
@@ -34,10 +34,9 @@ SGV loadSGVFromFiles(SGV sgv) {
 
 void getProductsStartedByLetter (SGV sgv, char letter) {
    AVL prod;
-   int i=letter-65;
-   prod=getAVL(sgv,i);
+   prod=getAVLLetter(sgv,letter);
    int contador=inorderAVL(prod);
-   printf("%d",contador);
+   printf("\nNúmero de Produtos começados pela letra '%c': %d\n",letter,contador);
 }
 
 /*
@@ -82,6 +81,17 @@ Produto getClientTopProfitProducts(SGV sgv, char * clientID, int limit) {
 }*/
 
 
-AVL getAVL(SGV a, int index) {
-    return a.p[index];
+//------------------------------------------------------------------------------------------------------//
+
+
+AVL getAVLLetter(SGV a,char letter) {
+    return a.p[letter-65];
+}
+
+AVLC getAVLC(SGV a, int filial, int mes) {
+    return a.v[filial][mes];
+}
+
+AVLP getAVLP(AVLC a) {
+    return a->prod;
 }
