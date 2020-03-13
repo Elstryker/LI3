@@ -38,11 +38,11 @@ void readFiletoVenda(Venda v, FILE* f) {
         if(((eti=(strtok(NULL, " ")))!=NULL)) quant=atoi(eti);
         if(((eti=(strtok(NULL, " ")))!=NULL)) prom=(*eti);
         if(((eti=(strtok(NULL, " ")))!=NULL)) cli=strdup(eti);
-        if(((eti=(strtok(NULL, " ")))!=NULL)) mes=atoi(eti)-1;
-        if(((eti=(strtok(NULL, " ")))!=NULL)) filial=atoi(eti)-1;
+        if(((eti=(strtok(NULL, " ")))!=NULL)) mes=atoi(eti);
+        if(((eti=(strtok(NULL, " ")))!=NULL)) filial=atoi(eti);
         if (valvenda(prod,price,quant,prom,cli,mes,filial) == 1) {
-            v[filial][mes]=insertAVLC(v[filial][mes],cli);
-            treeC=lookupAVLC(v[filial][mes],cli);
+            v[filial-1][mes-1]=insertAVLC(v[filial-1][mes-1],cli);
+            treeC=lookupAVLC(v[filial-1][mes-1],cli);
             (treeC->prod)=insertAVLP(treeC->prod,prod,price,quant,prom);
         }
     }
