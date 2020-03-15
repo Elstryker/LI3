@@ -11,7 +11,7 @@ int percorreAVLP(AVLP a) {
     int i=0;
     if(a) {
         i+=percorreAVLP(a->left);
-        i++;
+        i+=a->tam;
         i+=percorreAVLP(a->right);
     }
     return i;

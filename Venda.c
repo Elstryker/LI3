@@ -106,7 +106,7 @@ AVLC insertAVLC(AVLC node,char* key)
         return rotateLC(node);
     if (balance > 1 && strcmp(key,node->left->key)>0)
     {
-        node->left =  rotateLC(node->left);
+        node->left = rotateLC(node->left);
         return rotateRC(node);
     }
     if (balance < -1 && strcmp(key,node->right->key)<0)
@@ -163,26 +163,37 @@ AVLP rotateLP(AVLP x)
     return y;
 }
 
-AVLP insertAVLP(AVLP node, char* key, float price, int quantity, char promo)
-{
+AVLP insertAVLP(AVLP node, char* key, float price, int quantity, char promo){
     if (node == NULL){
         AVLP new=NULL;
         new=malloc(sizeof(struct AVLP));
-        new->key=strdup(key);
+        new->array=malloc(sizeof(struct repetidos));
+        new->key=strdup(key); 
         new->right=new->left=NULL;
-        new->price=price;
-        new->quant=quantity;
-        new->promo=promo;
         new->height=1;
-        node=new;
+        new->tam = 1;
+        new->ocup = 1; 
+        (new->array)[0].price = price;
+        (new->array)[0].quant= quantity;
+        (new->array)[0].promo = promo;  
+        node=new; 
         return node;
     }
     if (strcmp(key,node->key)<0)
         node->left  = insertAVLP(node->left, key, price, quantity, promo);
     else if (strcmp(key,node->key)>0)
         node->right = insertAVLP(node->right, key, price, quantity, promo);
-    else
-        return node;
+    else {
+        if(node->ocup == node->tam) {
+        node->tam=2*node->tam;
+        node->array=realloc(node->array,(node->tam)*sizeof(struct repetidos));
+        }
+        (node->array)[node->ocup].price=price;
+        (node->array)[node->ocup].quant=quantity;
+        (node->array)[node->ocup].promo=promo;
+        node->ocup++;
+        return node; 
+    }
     node->height = 1 + max3(alturaP(node->left),
                            alturaP(node->right));
     int balance = (alturaP(node->left))-(alturaP(node->right));
@@ -239,15 +250,15 @@ void destroyVenda(Venda v) {
     }
 }
 
-float getPrice(AVLP a) {
-    return a->price;
+float getPrice(AVLP a,int index) {
+    return (a->array)[index].price;
 }
 
-int getQuantity(AVLP a) {
-    return a->quant;
+int getQuantity(AVLP a,int index) {
+    return (a->array)[index].quant; 
 }
 
-char getPromo(AVLP a) {
-    return a->promo;
+char getPromo(AVLP a,int index) { 
+    return (a->array)[index].promo;
 }
 

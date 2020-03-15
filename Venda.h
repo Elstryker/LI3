@@ -14,12 +14,18 @@ typedef struct AVLC{
     struct AVLC *left;
 } *AVLC;
 
-typedef struct AVLP{
-    char* key;
-    int height;
+typedef struct repetidos {
     float price;
     int quant;
     char promo;
+} Repetidos;
+
+typedef struct AVLP{
+    char* key;
+    int height;
+    int tam;
+    int ocup;
+    struct repetidos *array;
     struct AVLP *right;
     struct AVLP *left;
 } *AVLP;
@@ -49,9 +55,9 @@ void printAVLP(AVLP a,int i);
 
 Venda initVenda();
 void destroyVenda(Venda v);
-char getPromo(AVLP a);
-int getQuantity(AVLP a);
-float getPrice(AVLP a);
+char getPromo(AVLP a,int index);
+int getQuantity(AVLP a,int index);
+float getPrice(AVLP a,int index);
 int valvenda(char *prod,float prec,int un,char prom,char *cli,int mes,int super);
 void readFiletoVenda(Venda v, FILE* f);
 AVLC lookupAVLC(AVLC a, char* key);
