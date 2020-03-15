@@ -30,16 +30,17 @@ void readFiletoVenda(Venda v, FILE* f) {
     char* eti;
     AVLC treeC;
     buffer=(char*) malloc(35*sizeof(char));
-    while(feof(f)==0) {
+    while(feof(f)==0){
         fgets(buffer,35, f);
         strtok(buffer,"\r\n");
         prod=strdup(strtok(buffer, " "));
         if(((eti=(strtok(NULL, " ")))!=NULL)) price=atof(eti);
-        if(((eti=(strtok(NULL, " ")))!=NULL)) quant=atoi(eti);
-        if(((eti=(strtok(NULL, " ")))!=NULL)) prom=(*eti);
-        if(((eti=(strtok(NULL, " ")))!=NULL)) cli=strdup(eti);
-        if(((eti=(strtok(NULL, " ")))!=NULL)) mes=atoi(eti);
-        if(((eti=(strtok(NULL, " ")))!=NULL)) filial=atoi(eti);
+        else break;
+        quant=atoi(strtok(NULL, " "));
+        prom=(*strtok(NULL, " "));
+        cli=strdup(strtok(NULL, " "));
+        mes=atoi(strtok(NULL, " "));
+        filial=atoi(strtok(NULL, " "));
         if (valvenda(prod,price,quant,prom,cli,mes,filial) == 1) {
             v[filial-1][mes-1]=insertAVLC(v[filial-1][mes-1],cli);
             treeC=lookupAVLC(v[filial-1][mes-1],cli);
