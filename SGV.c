@@ -25,7 +25,7 @@ SGV loadSGVFromFiles(SGV sgv) {
     }
     readFiletoCliente(sgv.c,cliente);
     readFiletoProduto(sgv.p,produto);
-    readFiletoVenda(sgv.v,venda);
+    readFiletoVenda(sgv,venda);
     fclose(cliente);
     fclose(produto);
     fclose(venda);
@@ -103,4 +103,45 @@ AVLC getAVLC(SGV a, int filial, int mes) {
 
 AVLP getAVLP(AVLC a) {
     return a->prod;
+}
+
+void readFiletoVenda(SGV sgv, FILE* f) {
+    char*prod, *cli = NULL, prom = '\0', *buffer;
+    float price = 0;
+    int quant = 0, mes = 0, filial = 0;
+    char* eti;
+    AVLC treeC;
+    buffer=(char*) malloc(35*sizeof(char));
+    while(feof(f)==0){
+        fgets(buffer,35, f);
+        strtok(buffer,"\r\n");
+        prod=strdup(strtok(buffer, " "));
+        if(((eti=(strtok(NULL, " ")))!=NULL)) price=atof(eti);
+        else break;
+        quant=atoi(strtok(NULL, " "));
+        prom=(*strtok(NULL, " "));
+        cli=strdup(strtok(NULL, " "));
+        mes=atoi(strtok(NULL, " "));
+        filial=atoi(strtok(NULL, " "));
+        if (valvenda(sgv,prod,price,quant,prom,cli,mes,filial) == 1) {
+            sgv.v[filial-1][mes-1]=insertAVLC(sgv.v[filial-1][mes-1],cli);
+            treeC=lookupAVLC(sgv.v[filial-1][mes-1],cli);
+            (treeC->prod)=insertAVLP(treeC->prod,prod,price,quant,prom);
+        }
+    }
+}
+
+int valvenda(SGV sgv, char *prod,float price,int quant,char prom,char *cli,int mes,int filial) {
+    int i=0;
+    if (isupper(prod[0]) && isupper(prod[1]) && isdigit(prod[2]) && isdigit(prod[3]) && isdigit(prod[4]) && isdigit(prod[5]))
+    {
+        if (price>=0 && quant>=0 && (mes>0 && mes<13) && (filial>0 && filial <4) && (prom=='N' || prom == 'P'))
+        {
+            if (isupper(cli[0]) && isdigit(cli[1]) && isdigit(cli[2]) && isdigit(cli[3]) && isdigit(cli[4])){
+                if(findCli(sgv.c[cli[0]-65],cli)==1 && findProd(sgv.p[prod[0]-65],prod)==1) i=1;
+            }      
+        }        
+    }
+
+    return i;
 }

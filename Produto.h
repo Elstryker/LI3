@@ -20,5 +20,6 @@ AVL rotateL2(AVL a);
 AVL insertAVL2(AVL a,char* x);
 void printAVL2(AVL a, int i);
 int inorderAVL(AVL a);
+int findProd(AVL a,char* key);
 
 #endif 

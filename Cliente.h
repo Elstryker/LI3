@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
+#include <stdio.h> 
 
 typedef struct AVL *AVL;
 
@@ -19,5 +19,6 @@ AVL rotateR(AVL a);
 AVL rotateL(AVL a);
 AVL insertAVL(AVL a,char* x);
 void printAVL(AVL a, int i);
+int findCli(AVL a,char* key);
 
 #endif 

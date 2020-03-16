@@ -122,3 +122,16 @@ int inorderAVL(AVL a) {
     }
     return contador;
 }
+
+
+int findProd(AVL a,char* key){
+    int i=0;
+    int compare=strcmp(key,a->key);
+    
+    if(a) {
+    if(compare > 0) findProd(a->right,key);
+    else if(compare < 0) findProd(a->left,key);
+    else i=1;  
+    }
+return i;
+}
