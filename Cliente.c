@@ -115,9 +115,9 @@ void printAVL (AVL a, int i) {
 
 int findCli(AVL a,char* key){
     int i=0;
-    int compare=strcmp(key,a->key);
     
     if(a != NULL ) {
+        int compare=strcmp(key,a->key);
         if(compare > 0) i=findCli(a->right,key);
          else {
         if(compare < 0) i=findCli(a->left,key);
