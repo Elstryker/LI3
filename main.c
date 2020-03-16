@@ -9,9 +9,11 @@
 
 int main(int argc, const char * argv[]) {
     SGV a;
-    char productID[10];
+    char *productID;
     int opcao,mes=0;
+    size_t bufsize = 10;
     char letra=' ';
+    productID = (char *)malloc(bufsize * sizeof(char));
 
     printf("\n\nSelecione qual query deseja executar\n0 - Sair\n1 - initSGV\n2 - destroySGV\n3 - loadSGVFromFiles\n4 - getProductsStartedByLetter\n5 - getProductsSalesAndProfit\n6 - getProductsNeverBought\n7 - getClientsOfAllBranches\n8 - getClientsAndProductsNeverBoughtCount\n9 - getProductsBoughtByClient\n10 - getSalesAndProfit\n11 - getProductBuyers\n12 - getClientFavoriteProducts\n13 - getTopSelledProducts\n14 - getClientTopProfitProducts\n");
 
@@ -44,7 +46,7 @@ int main(int argc, const char * argv[]) {
         scanf(" %d",&mes);
         fflush(stdin);
         printf("Indique o produto que deseja procurar\n");
-        getline(&productID,sizeof(productID),stdin);
+        getline(&productID,&bufsize,stdin);
         strtok(productID,"\n");
         getProductsSalesAndProfit(a,productID,mes);    
         break;
