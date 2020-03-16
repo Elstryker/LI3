@@ -39,11 +39,20 @@ void getProductsStartedByLetter (SGV sgv, char letter) {
    printf("\nNúmero de Produtos começados pela letra '%c': %d\n",letter,contador);
 }
 
-/*
 void getProductsSalesAndProfit (SGV sgv, char * productID, int month) {
-
+    int i, totalSales = 0; 
+    float totalN = 0, totalP = 0;
+    AVLC a;
+    for(i=0;i<3;i++) {
+        a=getAVLC(sgv,i,month-1);
+        totalSales += salesAndProfitC(a, &totalN, &totalP, productID);
+    }
+    printf("Vendas totais do produto %s no %d mes: %d\n"
+           "Vendas totais em venda normal: %0.2f\n"
+           "Vendas totais em promoçao: %0.2f\n\n",productID, month, totalSales, totalN, totalP);
 }
 
+/*
 Produto getProductsNeverBought (SGV sgv, int branchID) {
 
 }

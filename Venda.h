@@ -61,5 +61,10 @@ float getPrice(AVLP a,int index);
 int valvenda(char *prod,float prec,int un,char prom,char *cli,int mes,int super);
 void readFiletoVenda(Venda v, FILE* f);
 AVLC lookupAVLC(AVLC a, char* key);
+AVLP lookupAVLP(AVLP a, char* key);
+int percorreAVLP(AVLP a);
+int percorreAVLC(AVLC a);
+int salesAndProfitP(AVLP a, float *totalN, float *totalP);
+int salesAndProfitC(AVLC a, float *totalN, float *totalP, char* key);
 
 #endif 

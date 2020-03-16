@@ -263,3 +263,57 @@ char getPromo(AVLP a,int index) {
     return (a->array)[index].promo;
 }
 
+int percorreAVLP(AVLP a) {
+    int i=0;
+    if(a) {
+        i+=percorreAVLP(a->left);
+        i+=a->tam;
+        i+=percorreAVLP(a->right);
+    }
+    return i;
+}
+
+int percorreAVLC(AVLC a) {
+    int i=0;
+    if(a) {
+        i+=percorreAVLC(a->left);
+        i+=percorreAVLP(a->prod);
+        i+=percorreAVLC(a->right);
+    }
+    return i;
+}
+
+int salesAndProfitP(AVLP a, float *totalN, float *totalP) {
+    int totalSales=0;
+    int ocupados = a->ocup;
+    totalSales += ocupados;
+    for(int i = 0; i < ocupados; i++) {
+        if(a->array[i].promo == 'N') (*totalN) += (float)((a->array[i].price) * (a->array[i].quant));
+        else (*totalP) += (float)((a->array[i].price) * (a->array[i].quant));
+    }
+    return totalSales;
+}
+
+int salesAndProfitC(AVLC a, float *totalN, float *totalP, char* key) {
+    int totalSales=0;
+    AVLP b;
+    if(a) {
+        totalSales+=salesAndProfitC(a->left, totalN, totalP, key);
+        b = lookupAVLP(a->prod, key);
+        if(b != NULL) totalSales+=salesAndProfitP(b, totalN, totalP);
+        totalSales+=salesAndProfitC(a->right, totalN, totalP, key);
+    }
+    return totalSales;
+}
+
+AVLP lookupAVLP(AVLP a, char* key) {
+    AVLP r=NULL;
+    int res=0;
+    if(a) {
+        res = strcmp(key,a->key);
+        if(res > 0) r=lookupAVLP(a->right,key);
+        else if(res < 0) r=lookupAVLP(a->left,key);
+        else r=a;
+    }
+    return r;
+}
