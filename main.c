@@ -18,7 +18,8 @@ int main(int argc, const char * argv[]) {
             soma += percorreAVLC(a.v[i][j]);
         }
     }
-    destroySGV(a);
     printf("%d\n\n",soma);
+    getProductsSalesAndProfit(a,"PE1822",3);
+    destroySGV(a);
     return 0;
 }
