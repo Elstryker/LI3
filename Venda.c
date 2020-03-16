@@ -230,7 +230,7 @@ int percorreAVLP(AVLP a) {
     int i=0;
     if(a) {
         i+=percorreAVLP(a->left);
-        i+=a->tam;
+        i+=a->ocup;
         i+=percorreAVLP(a->right);
     }
     return i;
