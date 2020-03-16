@@ -1,12 +1,5 @@
 #include "Produto.h"
 
-struct AVL {
-    char* key;
-    int height;
-    struct AVL* right;
-    struct AVL* left;
-};
-
 Produto initProduto(){
     Produto p;
     p=malloc(26*sizeof(struct AVL*));

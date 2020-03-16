@@ -9,17 +9,12 @@
 
 int main(int argc, const char * argv[]) {
     SGV a;
-    int i,j,soma=0;
+    int soma=0;
     a=initSGV();
     a=loadSGVFromFiles(a);
     printf("\n\nDone!\n\n");
-    for(i=0;i<3;i++){
-        for(j=0;j<12;j++){
-            soma += percorreAVLC(a.v[i][j]);
-        }
-    }
-    printf("%d\n\n",soma);
-    getProductsSalesAndProfit(a,"PE1822",3);
+    getProductsSalesAndProfit(a, "XY1464", 1);
+    printf("%d\n", soma);
     destroySGV(a);
     return 0;
 }
