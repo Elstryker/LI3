@@ -9,16 +9,51 @@
 
 int main(int argc, const char * argv[]) {
     SGV a;
-    int i,j,soma=0;
-    a=initSGV();
-    a=loadSGVFromFiles(a);
-    printf("\n\nDone!\n\n");
-    for(i=0;i<3;i++){
-        for(j=0;j<12;j++){
-            soma += percorreAVLC(a.v[i][j]);
-        }
-    }
-    destroySGV(a);
-    printf("%d\n\n",soma);
+    char *productID=NULL;
+    int opcao,mes=0;
+    char letra=' ';
+    printf("\n\nSelecione qual query deseja executar\n0 - Sair\n1 - initSGV\n2 - destroySGV\n3 - loadSGVFromFiles\n4 - getProductsStartedByLetter\n5 - getProductsSalesAndProfit\n6 - getProductsNeverBought\n7 - getClientsOfAllBranches\n8 - getClientsAndProductsNeverBoughtCount\n9 - getProductsBoughtByClient\n10 - getSalesAndProfit\n11 - getProductBuyers\n12 - getClientFavoriteProducts\n13 - getTopSelledProducts\n14 - getClientTopProfitProducts\n");
+
+    do {
+
+    scanf("%d",&opcao);
+    switch (opcao)
+    {
+    case 0:
+        break;
+    case 1:
+        a=initSGV();
+        printf("\n\nDone!\n\n");
+        break;
+    case 2:
+        destroySGV(a);
+        printf("\n\nDone!\n\n");
+        break;
+    case 3:
+        a=loadSGVFromFiles(a);
+        printf("\n\nDone!\n\n");
+        break;
+    case 4:
+        printf("\nIndique que letra deseja procurar\n");
+        scanf("%c",&letra);
+        getProductsStartedByLetter(a,letra);
+        break;
+    case 5:
+        printf("\nIndique o produto que deseja procurar\n");
+        scanf("%s",productID);
+        strtok(productID,"\n");
+        printf("Indique o mes\n");
+        scanf("%d",&mes);
+        getProductsSalesAndProfit(a,productID,mes);    
+        break;
+    default:
+    printf("\nOpcao invalida! Por favor tente novamente!\n");
+        break;
+    }        
+
+    } while (opcao!=0);
+
+
+
     return 0;
 }
