@@ -52,11 +52,97 @@ void getProductsSalesAndProfit (SGV sgv, char * productID, int month) {
            "Vendas totais em promoçao: %0.2f\n\n",productID, month, totalSales, totalN, totalP);
 }
 
-<<<<<<< HEAD
 /*
 Produto getProductsNeverBought (SGV sgv, int branchID) {
 
 }*/
+
+
+
+AVLC findVendaCliente(AVLC clientes, char* key)
+{
+    while(clientes)
+    {
+        int i=strcmp(clientes->key,key);
+        if(i>0) clientes=clientes->left;
+        else if(i<0) clientes=clientes->right;
+        else return clientes;
+    }
+    return clientes;
+} 
+
+    /*
+    int find=0;
+    if(clientes) {
+        int i=strcmp(clientes->key,key);
+        if(i>0) find=findVendaCliente(clientes->left, key);
+        else if(i<0) find=findVendaCliente(clientes->right, key);
+        
+        else 
+            if (clientes->prod->ocup>0) return 1; 
+    }
+    return find;
+    
+}*/
+
+
+
+/*
+Cliente getClientsOfAllBranches(SGV sgv){
+
+//procurar na arvore das vendas
+//se encontrou venda, entao venda filial é positiva, sai de procurar desse mes
+//se nao encontrou venda nesse mes, entao passa para o proximo mes e a venda está incompleta para ja 
+
+*/
+void testClientOfAllBranches(SGV sgv, Cliente *newCliente, char *key)
+{
+    int vendaFilial=0;
+    int vendaIncompleta=0;
+    int vendaCompleta=0;
+
+    for(int f=0; f<3 && vendaIncompleta==0; f++)
+    {
+        for(int m=0; m<12 && vendaFilial==0; m++)
+        {
+            if (findVendaCliente(sgv.v[f][m], key))
+            {
+                vendaFilial=1;
+                vendaIncompleta=0;
+            } 
+            else vendaIncompleta=1;
+        }
+        if (vendaFilial==1) vendaCompleta++; 
+    } 
+    if (vendaCompleta==3) newCliente[key[0]-65] = insertAVL(newCliente[key[0]-65], key);
+}
+
+
+
+
+
+
+void percorreArvore(SGV sgv, AVL clientes, Cliente *newCliente)
+{
+    if(clientes)
+    {
+        percorreArvore(sgv, clientes->left, &newCliente);
+        percorreArvore(sgv, clientes->right, &newCliente);
+        testClientOfAllBranches(sgv, &newCliente, clientes->key);
+
+    }
+
+}
+
+int getProductsNeverBought (SGV sgv, int branchID) {
+    int total = 0;
+    AVL a;
+    for(int i=0; i<26; i++) {
+        a = getAVL(sgv,i);
+        total+=allProductNeverBoughtScan(a, getVenda(sgv));
+    }
+    return total;
+}
 
 
 
@@ -76,7 +162,7 @@ Cliente getClientsOfAllBranches(SGV sgv)
 
     for(int l=0; l<26; l++)
     {
-        //AVL arv = sgv.c[l];
+        
         if(sgv.c[l])
         {
             percorreArvore(sgv, sgv.c[l], &newCliente);
@@ -87,77 +173,6 @@ Cliente getClientsOfAllBranches(SGV sgv)
     }
     return newCliente;
 }
-
-void percorreArvore(SGV sgv, AVL clientes, Cliente *newCliente)
-{
-    if(clientes)
-    {
-        percorreArvore(sgv, clientes->left, &newCliente);
-        percorreArvore(sgv, clientes->right, &newCliente);
-        testClientOfAllBranches(sgv, &newCliente, clientes->key);
-
-    }
-
-}
-
-=======
-int getProductsNeverBought (SGV sgv, int branchID) {
-    int total = 0;
-    AVL a;
-    for(int i=0; i<26; i++) {
-        a = getAVL(sgv,i);
-        total+=allProductNeverBoughtScan(a, getVenda(sgv));
-    }
-    return total;
-}
-
-/*
-Cliente getClientsOfAllBranches(SGV sgv){
->>>>>>> da070dffdd7d6e158051cc7d71d2e554df8833c4
-
-//procurar na arvore das vendas
-//se encontrou venda, entao venda filial é positiva, sai de procurar desse mes
-//se nao encontrou venda nesse mes, entao passa para o proximo mes e a venda está incompleta para ja 
-void testClientOfAllBranches(SGV sgv, Cliente *newCliente, char *key)
-{
-    int vendaFilial=0;
-    int vendaIncompleta=0;
-    int vendaCompleta=0;
-
-    for(int f=0; f<3 && vendaIncompleta==0; f++)
-    {
-        for(int m=0; m<12 && vendaFilial==0; m++)
-        {
-            if (findVendaCliente(sgv.v[f][m], key) == 1)
-            {
-                vendaFilial=1;
-                vendaIncompleta=0;
-            } 
-            else vendaIncompleta=1;
-        }
-        if (vendaFilial==1) vendaCompleta++; 
-    } 
-    if (vendaCompleta==3) insertAVL(&newCliente, key);
-}
-
-
-int findVendaCliente(AVLC clientes, char* key) {
-    int find=0;
-    if(clientes) {
-        int i=strcmp(clientes->key,key);
-        if(i>0) find=findVendaCliente(clientes->left, key);
-        else if(i<0) find=findVendaCliente(clientes->right, key);
-        
-        else 
-            if (clientes->prod->ocup>0) return 1; 
-    }
-    return find;
-}
-
-
-
-
-
 
 
 
