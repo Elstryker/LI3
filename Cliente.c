@@ -128,8 +128,8 @@ int findCli(AVL a,char* key){
 
 void cleanBought(AVL a) {
     if(a) {
-        cleanBoughtC(a->left);
+        cleanBought(a->left);
         a->bought=0;
-        cleanBoughtC(a->right);
+        cleanBought(a->right);
     }
 }

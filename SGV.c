@@ -55,7 +55,10 @@ void getProductsSalesAndProfit (SGV sgv, char * productID, int month) {
 int getProductsNeverBought (SGV sgv, int branchID) {
     int total = 0;
     AVLC a;
-    cleanBoughtCP(NULL,getProduto(sgv));
+    for(int i=0; i<26; i++) {
+        cleanBought(getAVLProd(sgv,i));
+        cleanBought(getAVLCLi(sgv,i));
+    }
     if(branchID == 0) {
         for(int i=0; i<3; i++) {
             for(int j=0; j<12; j++) {
@@ -63,14 +66,14 @@ int getProductsNeverBought (SGV sgv, int branchID) {
                 scanProdBought(a,getProduto(sgv));
             }
         }
-        for(int i=0; i<26; i++) total += printBought(getAVL(sgv,i));
+        for(int i=0; i<26; i++) total += printBought(getAVLProd(sgv,i));
     }
     else if(branchID > 0 && branchID < 4) {
         for(int i=0; i<12; i++) {
             a=getAVLC(sgv,i,branchID);
             scanProdBought(a,getProduto(sgv));
         }
-        for(int i=0; i<26; i++) total += printBought(getAVL(sgv,i));
+        for(int i=0; i<26; i++) total += printBought(getAVLProd(sgv,i));
     }
     else printf("Error, branch not found!\n");
     return total; 
@@ -83,7 +86,7 @@ Cliente getClientsOfAllBranches(SGV sgv)
     {
         if(sgv.c[l])
         {
-            percorreArvore(sgv, sgv.c[l], &newCliente);
+            percorreArvore(sgv, sgv.c[l], newCliente);
         }
     }
     return newCliente;
@@ -147,7 +150,11 @@ AVLP getAVLP(AVLC a) {
     return a->prod;
 }
 
-AVL getAVL(SGV a, int index) {
+AVL getAVLCLi(SGV a, int index) {
+    return a.c[index];
+}
+
+AVL getAVLProd(SGV a, int index) {
     return a.p[index];
 }
 
