@@ -63,15 +63,15 @@ int getProductsNeverBought (SGV sgv, int branchID) {
         for(int i=0; i<3; i++) {
             for(int j=0; j<12; j++) {
                 a = getAVLC(sgv,i,j);
-                scanProdBought(a,getProduto(sgv));
+                scanProdBoughtC(a,getProduto(sgv));
             }
         }
         for(int i=0; i<26; i++) total += printBought(getAVLProd(sgv,i));
     }
     else if(branchID > 0 && branchID < 4) {
         for(int i=0; i<12; i++) {
-            a=getAVLC(sgv,i,branchID);
-            scanProdBought(a,getProduto(sgv));
+            a=getAVLC(sgv,branchID-1,i);
+            scanProdBoughtC(a,getProduto(sgv));
         }
         for(int i=0; i<26; i++) total += printBought(getAVLProd(sgv,i));
     }
@@ -213,63 +213,23 @@ void cleanBoughtCP(Cliente c, Produto p) {
     }
 }
 
-void scanProdBought(AVLC a, Produto p) {
+void scanProdBoughtP(AVLP a, Produto p) {
     if(a) {
         AVL b;
-        scanProdBought(a->left,p);
+        scanProdBoughtP(a->left,p);
         b = lookupAVL(p[(a->key[0])-65],a->key);
         b->bought=1;
-        scanProdBought(a->right,p);
+        scanProdBoughtP(a->right,p);
     }
 }
 
-/*
-int isBoughtP(AVLP a, char* key) {
-    int bool = 0;
-    AVLP b=a;
-    int cmp;
-    while(b!=NULL && bool!=1) {
-        cmp = strcmp(key, b->key);
-        if(cmp > 0) b=b->right;
-        else if(cmp < 0) b=b->left;
-        else bool = 1;
-    }
-    return bool;
-}
-
-int isBoughtC(AVLC a,char* key) {
-    int bool = 0;
+void scanProdBoughtC(AVLC a, Produto p) {
     if(a) {
-        if( isBoughtC(a->left,key) ||
-            isBoughtP(a->prod,key) ||
-            isBoughtC(a->right,key)) bool = 1;
+        scanProdBoughtC(a->left,p);
+        scanProdBoughtP(a->prod,p);
+        scanProdBoughtC(a->right,p);
     }
-    return bool;
-} 
-
-int scanNeverBoughtP(char* key, Venda v) {
-    int i,j, r = 0;
-    for(i=0; i<3 && r==0; i++) {
-        for(j=0; j<12 && r==0; j++) {
-            if(isBoughtC(v[i][j],key)) r=1;
-        }
-    }
-    return r;
 }
-
-int allProductNeverBoughtScan(AVL a, Venda v) {
-    int total = 0;
-    if(a) {
-        total+=allProductNeverBoughtScan(a->left,v);
-        if(scanNeverBoughtP(a->key,v)==0) {
-            printf("%s\n", a->key);
-            total++;
-        }
-        total+=allProductNeverBoughtScan(a->right,v);
-    }
-    return total;
-} 
-*/
 
 void percorreArvore(SGV sgv, AVL clientes, Cliente newCliente)
 {

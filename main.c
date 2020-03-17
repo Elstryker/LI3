@@ -55,7 +55,8 @@ int main(int argc, const char * argv[]) {
         printf("Indique a filial\n");
         int filial;
         scanf("%d",&filial);
-        getProductsNeverBought(a,filial);
+        printf("Número de produtos nunca comprados: %d\n\n",getProductsNeverBought(a,filial));
+        break;
   /*  case 7:
         getClientsOfAllBranches(a);
         break;*/
@@ -64,6 +65,7 @@ int main(int argc, const char * argv[]) {
         scanf(" %d",&minMonth);
         scanf(" %d",&maxMonth);
         getSalesAndProfit(a,minMonth,maxMonth);
+        break;
     default:
         printf("\nOpcao invalida! Por favor tente novamente!\n");
         break;
