@@ -3,6 +3,7 @@
 struct AVL {
     char* key;
     int height;
+    int bought;
     struct AVL* right;
     struct AVL* left;
 };
@@ -75,6 +76,7 @@ AVL insertAVL(AVL node,char* key)
         new->key=strdup(key);
         new->right=new->left=NULL;
         new->height=1;
+        new->bought=0;
         node=new;
         return node;
     }
@@ -122,4 +124,12 @@ int findCli(AVL a,char* key){
         else i=1;
     }
     return i;
+}
+
+void cleanBought(AVL a) {
+    if(a) {
+        cleanBoughtC(a->left);
+        a->bought=0;
+        cleanBoughtC(a->right);
+    }
 }

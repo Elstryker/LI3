@@ -67,6 +67,7 @@ AVL insertAVL2(AVL node,char* key)
         new->key=strdup(key);
         new->right=new->left=NULL;
         new->height=1;
+        new->bought=0;
         node=new;
         return node;
     }
@@ -127,3 +128,26 @@ int findProd(AVL a,char* key){
     }
     return i;
 }
+
+AVL lookupAVL(AVL a, char* key) {
+    AVL b=a;
+    int cmp = 0, breakflag = 0;
+    while(b!=NULL && breakflag == 0) {
+        cmp = strcmp(key,b->key);
+        if(cmp > 0) b=b->right;
+        else if(cmp < 0) b=b->left;
+        else breakflag=1;
+    }
+    return b;
+}
+
+int printBought(AVL a) {
+    int r = 0;
+    if(a) {
+        r += printBought(a->left);
+        if(a->bought) puts(a->key);
+        r++;
+        r += printBought(a->right);
+    }
+    return r;
+} 

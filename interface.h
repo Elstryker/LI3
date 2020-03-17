@@ -45,12 +45,16 @@ AVLC getAVLC(SGV a, int filial, int mes);
 AVLP getAVLP(AVLC a);
 AVL getAVL(SGV a, int index);
 Venda getVenda(SGV a);
+Produto getProduto(SGV a);
+Cliente getCliente(SGV a);
 int valvenda(SGV sgv,char *prod,float prec,int un,char prom,char *cli,int mes,int super);
 void readFiletoVenda(SGV v, FILE* f);
 int neverBoughtP(AVLP a, char* key);
 int neverBoughtC(AVLC a,char* key);
 int scanNeverBoughtP(char* key, Venda v);
 int allProductNeverBoughtScan(AVL a, Venda v);
+void cleanBoughtCP(Cliente c,Produto p);
+void scanProdBought(AVLC a, Produto p);
 
 
 #endif 

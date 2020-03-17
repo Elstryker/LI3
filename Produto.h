@@ -9,6 +9,7 @@
 typedef struct AVL {
     char* key;
     int height;
+    int bought;
     struct AVL* right;
     struct AVL* left;
 } *AVL;
@@ -26,5 +27,7 @@ AVL insertAVL2(AVL a,char* x);
 void printAVL2(AVL a, int i);
 int inorderAVL(AVL a);
 int findProd(AVL a,char* key);
+AVL lookupAVL(AVL a, char* key);
+int printBought(AVL a);
 
 #endif 

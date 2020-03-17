@@ -52,20 +52,29 @@ void getProductsSalesAndProfit (SGV sgv, char * productID, int month) {
            "Vendas totais em promoçao: %0.2f\n\n",productID, month, totalSales, totalN, totalP);
 }
 
-<<<<<<< HEAD
-/*
-Produto getProductsNeverBought (SGV sgv, int branchID) {
-
-}*/
-
-
-
-
-
-
-
-
-
+int getProductsNeverBought (SGV sgv, int branchID) {
+    int total = 0;
+    AVLC a;
+    cleanBoughtCP(NULL,getProduto(sgv));
+    if(branchID == 0) {
+        for(int i=0; i<3; i++) {
+            for(int j=0; j<12; j++) {
+                a = getAVLC(sgv,i,j);
+                scanProdBought(a,getProduto(sgv));
+            }
+        }
+        for(int i=0; i<26; i++) total += printBought(getAVL(sgv,i));
+    }
+    else if(branchID > 0 && branchID < 4) {
+        for(int i=0; i<12; i++) {
+            a=getAVLC(sgv,i,branchID);
+            scanProdBought(a,getProduto(sgv));
+        }
+        for(int i=0; i<26; i++) total += printBought(getAVL(sgv,i));
+    }
+    else printf("Error, branch not found!\n");
+    return total; 
+}
 //Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais
 
 
@@ -100,20 +109,6 @@ void percorreArvore(SGV sgv, AVL clientes, Cliente *newCliente)
 
 }
 
-=======
-int getProductsNeverBought (SGV sgv, int branchID) {
-    int total = 0;
-    AVL a;
-    for(int i=0; i<26; i++) {
-        a = getAVL(sgv,i);
-        total+=allProductNeverBoughtScan(a, getVenda(sgv));
-    }
-    return total;
-}
-
-/*
-Cliente getClientsOfAllBranches(SGV sgv){
->>>>>>> da070dffdd7d6e158051cc7d71d2e554df8833c4
 
 //procurar na arvore das vendas
 //se encontrou venda, entao venda filial é positiva, sai de procurar desse mes
@@ -153,23 +148,6 @@ int findVendaCliente(AVLC clientes, char* key) {
     }
     return find;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /*
@@ -225,6 +203,14 @@ Venda getVenda(SGV a) {
     return a.v;
 }
 
+Produto getProduto(SGV a) {
+    return a.p;
+}
+
+Cliente getCliente(SGV a) {
+    return a.c;
+}
+
 void readFiletoVenda(SGV sgv, FILE* f) {
     char*prod, *cli = NULL, prom = '\0', *buffer;
     float price = 0;
@@ -261,6 +247,24 @@ int valvenda(SGV sgv, char *prod,float price,int quant,char prom,char *cli,int m
     return i;
 }
 
+void cleanBoughtCP(Cliente c, Produto p) {
+    for(int i=0; i<26; i++) {
+        cleanBought(c[i]);
+        cleanBought(p[i]);
+    }
+}
+
+void scanProdBought(AVLC a, Produto p) {
+    if(a) {
+        AVL b;
+        scanProdBought(a->left,p);
+        b = lookupAVL(p[(a->key[0])-65],a->key);
+        b->bought=1;
+        scanProdBought(a->right,p);
+    }
+}
+
+/*
 int isBoughtP(AVLP a, char* key) {
     int bool = 0;
     AVLP b=a;
@@ -306,3 +310,4 @@ int allProductNeverBoughtScan(AVL a, Venda v) {
     }
     return total;
 } 
+*/
