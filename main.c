@@ -55,8 +55,9 @@ int main(int argc, const char * argv[]) {
     case 6: 
         printf("Indique a filial\n");
         scanf("%d",&filial);
-        getProductsNeverBought(a,filial);
-    /* case 7:
+        printf("Número de produtos nunca comprados: %d\n\n",getProductsNeverBought(a,filial));
+        break;
+  /*  case 7:
         getClientsOfAllBranches(a);
         break;
         */
@@ -65,7 +66,7 @@ int main(int argc, const char * argv[]) {
         scanf(" %d",&minMonth);
         scanf(" %d",&maxMonth);
         getSalesAndProfit(a,minMonth,maxMonth);
-    
+        break;
     case 11:
         printf("Insira a filial\n");
         scanf("%d",&filial);

@@ -145,8 +145,10 @@ int printBought(AVL a) {
     int r = 0;
     if(a) {
         r += printBought(a->left);
-        if(a->bought) puts(a->key);
-        r++;
+        if(a->bought==0) {
+            puts(a->key);
+            r++;
+        }
         r += printBought(a->right);
     }
     return r;
