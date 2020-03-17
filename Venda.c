@@ -269,16 +269,6 @@ int salesAndProfitC(AVLC a, float *totalN, float *totalP, char* key) {
     return totalSales;
 }
 
-/*
-int currentMonthSalesAndProfit (AVLP prod, float *totalN, float *totalP) {
-    int totalSales = 0;
-    int ocup= prod->ocup;
-    for(int i=0;i<ocup;i++) {
-        if(prod->array[i].promo == 'N') (*totalN) +=(float) ((prod->array[i].price) * (prod->array[i].quant));
-        else (*totalP) += (float) ((prod->array[i].price) * (prod->array[i].quant));
-    }
-    return totalSales;
-}*/
 
 int monthlySalesAndProfit(AVLC a, float *totalN, float *totalP) {
     
