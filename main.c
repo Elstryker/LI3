@@ -71,8 +71,10 @@ int main(int argc, const char * argv[]) {
         printf("Insira a filial\n");
         scanf("%d",&filial);
         printf("Insira o produto\n");
+        fflush(stdin);
         getline(&productID,&bufsize,stdin);
         strtok(productID,"\n");
+        printf("\n\n");
         getProductBuyers(a,productID,(filial-1));
         break;
     default:
