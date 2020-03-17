@@ -55,6 +55,8 @@ int scanNeverBoughtP(char* key, Venda v);
 int allProductNeverBoughtScan(AVL a, Venda v);
 void cleanBoughtCP(Cliente c,Produto p);
 void scanProdBought(AVLC a, Produto p);
+void percorreArvore(SGV sgv, AVL clientes, Cliente newCliente);
+void testClientOfAllBranches(SGV sgv, Cliente newCliente, char *key);
 
 
 #endif 

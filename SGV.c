@@ -75,80 +75,19 @@ int getProductsNeverBought (SGV sgv, int branchID) {
     else printf("Error, branch not found!\n");
     return total; 
 }
-//Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais
-
-
 
 Cliente getClientsOfAllBranches(SGV sgv)
 {
     Cliente newCliente = malloc(sizeof(Cliente));
-
     for(int l=0; l<26; l++)
     {
-        //AVL arv = sgv.c[l];
         if(sgv.c[l])
         {
             percorreArvore(sgv, sgv.c[l], &newCliente);
-
-            //AQUI EU QUERO IR BUSCAR A KEY DE CADA CLIENTE E MANDAR COMPARAR COM AS VENDAS 
-            //MANTER SEMPRE O MESMO APONTADOR PARA O NEW CLIENTE PARA IR ADICIONANDO AS KEYS DOS CLIENTES QUE CUMPREM
         }
     }
     return newCliente;
 }
-
-void percorreArvore(SGV sgv, AVL clientes, Cliente *newCliente)
-{
-    if(clientes)
-    {
-        percorreArvore(sgv, clientes->left, &newCliente);
-        percorreArvore(sgv, clientes->right, &newCliente);
-        testClientOfAllBranches(sgv, &newCliente, clientes->key);
-
-    }
-
-}
-
-
-//procurar na arvore das vendas
-//se encontrou venda, entao venda filial é positiva, sai de procurar desse mes
-//se nao encontrou venda nesse mes, entao passa para o proximo mes e a venda está incompleta para ja 
-void testClientOfAllBranches(SGV sgv, Cliente *newCliente, char *key)
-{
-    int vendaFilial=0;
-    int vendaIncompleta=0;
-    int vendaCompleta=0;
-
-    for(int f=0; f<3 && vendaIncompleta==0; f++)
-    {
-        for(int m=0; m<12 && vendaFilial==0; m++)
-        {
-            if (findVendaCliente(sgv.v[f][m], key) == 1)
-            {
-                vendaFilial=1;
-                vendaIncompleta=0;
-            } 
-            else vendaIncompleta=1;
-        }
-        if (vendaFilial==1) vendaCompleta++; 
-    } 
-    if (vendaCompleta==3) insertAVL(&newCliente, key);
-}
-
-
-int findVendaCliente(AVLC clientes, char* key) {
-    int find=0;
-    if(clientes) {
-        int i=strcmp(clientes->key,key);
-        if(i>0) find=findVendaCliente(clientes->left, key);
-        else if(i<0) find=findVendaCliente(clientes->right, key);
-        
-        else 
-            if (clientes->prod->ocup>0) return 1; 
-    }
-    return find;
-}
-
 
 /*
 void getClientsAndProductsNeverBoughtCount (SGV sgv) {
@@ -158,11 +97,24 @@ void getClientsAndProductsNeverBoughtCount (SGV sgv) {
 Produto getProductsBoughtByClient(SGV sgv,char* clientID) {
 
 }
+*/
 
 void getSalesAndProfit (SGV sgv,int minMonth, int maxMonth) {
-
+    int i,month, totalSales =0;
+    float totalN = 0, totalP=0;
+    AVLC a;
+    for(month=minMonth-1;month<maxMonth-1;month++){
+        for(i=0;i<3;i++) {
+            a=getAVLC(sgv,i,month);
+            totalSales += monthlySalesAndProfit(a,&totalN,&totalP);
+        }
+    }
+    printf("Vendas totais entre o mes %d e o mes %d: %d\n"
+            "Vendas totais em venda normal: %0.2f\n"
+            "Vendas totais em promocao: %0.2f\n",minMonth,maxMonth,totalSales,totalN,totalP);
 }
 
+/*
 Cliente getProductBuyers (SGV sgv, char * productID, int branch) {
 
 }
@@ -311,3 +263,37 @@ int allProductNeverBoughtScan(AVL a, Venda v) {
     return total;
 } 
 */
+
+void percorreArvore(SGV sgv, AVL clientes, Cliente newCliente)
+{
+    if(clientes)
+    {
+        percorreArvore(sgv, clientes->left, newCliente);
+        testClientOfAllBranches(sgv, newCliente, clientes->key);
+        percorreArvore(sgv, clientes->right, newCliente);
+
+    }
+
+}
+
+void testClientOfAllBranches(SGV sgv, Cliente newCliente, char *key)
+{
+    int vendaFilial=0;
+    int vendaIncompleta=0;
+    int vendaCompleta=0;
+
+    for(int f=0; f<3 && vendaIncompleta==0; f++)
+    {
+        for(int m=0; m<12 && vendaFilial==0; m++)
+        {
+            if (lookupAVLC(sgv.v[f][m], key))
+            {
+                vendaFilial=1;
+                vendaIncompleta=0;
+            } 
+            else vendaIncompleta=1;
+        }
+        if (vendaFilial==1) vendaCompleta++; 
+    } 
+    if (vendaCompleta==3) newCliente[key[0]-65] = insertAVL(newCliente[key[0]-65], key);
+}

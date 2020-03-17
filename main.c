@@ -13,6 +13,7 @@ int main(int argc, const char * argv[]) {
     int opcao,mes=0;
     size_t bufsize = 10;
     char letra=' ';
+    int minMonth,maxMonth;
     productID = (char *)malloc(bufsize * sizeof(char));
 
     printf("\n\nSelecione qual query deseja executar\n0 - Sair\n1 - initSGV\n2 - destroySGV\n3 - loadSGVFromFiles\n4 - getProductsStartedByLetter\n5 - getProductsSalesAndProfit\n6 - getProductsNeverBought\n7 - getClientsOfAllBranches\n8 - getClientsAndProductsNeverBoughtCount\n9 - getProductsBoughtByClient\n10 - getSalesAndProfit\n11 - getProductBuyers\n12 - getClientFavoriteProducts\n13 - getTopSelledProducts\n14 - getClientTopProfitProducts\n");
@@ -55,8 +56,16 @@ int main(int argc, const char * argv[]) {
         int filial;
         scanf("%d",&filial);
         getProductsNeverBought(a,filial);
+  /*  case 7:
+        getClientsOfAllBranches(a);
+        break;*/
+    case 10:
+        printf("Indique entre que meses deseja procurar\n");
+        scanf(" %d",&minMonth);
+        scanf(" %d",&maxMonth);
+        getSalesAndProfit(a,minMonth,maxMonth);
     default:
-    printf("\nOpcao invalida! Por favor tente novamente!\n");
+        printf("\nOpcao invalida! Por favor tente novamente!\n");
         break;
     }        
 

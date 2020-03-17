@@ -269,6 +269,19 @@ int salesAndProfitC(AVLC a, float *totalN, float *totalP, char* key) {
     return totalSales;
 }
 
+
+int monthlySalesAndProfit(AVLC a, float *totalN, float *totalP) {
+    
+    int totalSales =0;
+    if(a)  {
+        totalSales += monthlySalesAndProfit(a->left,totalN,totalP);
+        totalSales += salesAndProfitP(a->prod,totalN,totalP);
+        totalSales += monthlySalesAndProfit(a->right,totalN,totalP);
+    }
+    return totalSales;
+}
+
+
 AVLP lookupAVLP(AVLP a, char* key) {
     AVLP r=NULL;
     int res=0;
