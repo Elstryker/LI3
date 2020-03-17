@@ -117,11 +117,19 @@ void getSalesAndProfit (SGV sgv,int minMonth, int maxMonth) {
             "Vendas totais em promocao: %0.2f\n",minMonth,maxMonth,totalSales,totalN,totalP);
 }
 
-/*
-Cliente getProductBuyers (SGV sgv, char * productID, int branch) {
 
+void getProductBuyers (SGV sgv, char * productID, int branch) {
+    int i;
+    AVLC a;
+    for(i=0;i<12;i++) {
+        a=getAVLC(sgv,branch,i);
+        printProductBuyers(a,productID);
+        
+    }
 }
 
+
+/*
 Produto getClientFavoriteProducts (SGV sgv, char* clientID, int month) {
 
 }
@@ -303,4 +311,12 @@ void testClientOfAllBranches(SGV sgv, Cliente newCliente, char *key)
         if (vendaFilial==1) vendaCompleta++; 
     } 
     if (vendaCompleta==3) newCliente[key[0]-65] = insertAVL(newCliente[key[0]-65], key);
+}
+
+void printProductBuyers(AVLC a, char* productID) {
+    AVLP p;
+    if(a){
+        p = lookupAVLP(a->prod,productID);
+        if(p) puts(a->key);
+    }
 }

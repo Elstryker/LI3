@@ -33,7 +33,7 @@ Cliente getClientsOfAllBranches(SGV sgv);
 void getClientsAndProductsNeverBoughtCount (SGV sgv);
 Produto getProductsBoughtByClient(SGV sgv,char* clientID);
 void getSalesAndProfit (SGV sgv,int minMonth, int maxMonth);
-Cliente getProductBuyers (SGV sgv, char * productID, int branch);
+void getProductBuyers (SGV sgv, char * productID, int branch);
 Produto getClientFavoriteProducts (SGV sgv, char* clientID, int month);
 Produto getTopSelledProducts(SGV sgv, int limit);
 Produto getClientTopProfitProducts(SGV sgv, char * clientID, int limit);
@@ -58,6 +58,6 @@ void cleanBoughtCP(Cliente c,Produto p);
 void scanProdBought(AVLC a, Produto p);
 void percorreArvore(SGV sgv, AVL clientes, Cliente newCliente);
 void testClientOfAllBranches(SGV sgv, Cliente newCliente, char *key);
-
+void printProductBuyers(AVLC a, char* productID);
 
 #endif 

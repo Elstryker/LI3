@@ -11,6 +11,7 @@ int main(int argc, const char * argv[]) {
     SGV a;
     char *productID;
     int opcao,mes=0;
+    int filial=0;
     size_t bufsize = 10;
     char letra=' ';
     int minMonth,maxMonth;
@@ -53,17 +54,26 @@ int main(int argc, const char * argv[]) {
         break;
     case 6: 
         printf("Indique a filial\n");
-        int filial;
         scanf("%d",&filial);
         getProductsNeverBought(a,filial);
-  /*  case 7:
+    /* case 7:
         getClientsOfAllBranches(a);
-        break;*/
+        break;
+        */
     case 10:
         printf("Indique entre que meses deseja procurar\n");
         scanf(" %d",&minMonth);
         scanf(" %d",&maxMonth);
         getSalesAndProfit(a,minMonth,maxMonth);
+    
+    case 11:
+        printf("Insira a filial\n");
+        scanf("%d",&filial);
+        printf("Insira o produto\n");
+        getline(&productID,&bufsize,stdin);
+        strtok(productID,"\n");
+        getProductBuyers(a,productID,(filial-1));
+        break;
     default:
         printf("\nOpcao invalida! Por favor tente novamente!\n");
         break;
