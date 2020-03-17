@@ -153,3 +153,13 @@ int printBought(AVL a) {
     }
     return r;
 } 
+
+int numProdNeverBought(AVL a) {
+    int r = 0;
+    if(a) {
+        r += numProdNeverBought(a->left);
+        if(!(a->bought)) r++;
+        r += numProdNeverBought(a->right); 
+    }
+    return r;
+}

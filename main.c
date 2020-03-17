@@ -24,62 +24,65 @@ int main(int argc, const char * argv[]) {
     scanf("%d",&opcao);
     switch (opcao)
     {
-    case 0:
-        break;
-    case 1:
-        a=initSGV();
-        printf("\n\nDone!\n\n");
-        break;
-    case 2:
-        destroySGV(a);
-        printf("\n\nDone!\n\n");
-        break;
-    case 3:
-        a=loadSGVFromFiles(a);
-        printf("\n\nDone!\n\n");
-        break;
-    case 4:
-        printf("\nIndique que letra deseja procurar\n");
-        scanf(" %c*[^\n]",&letra);
-        getProductsStartedByLetter(a,letra);
-        break;
-    case 5:
-        printf("Indique o mes\n");
-        scanf(" %d",&mes);
-        fflush(stdin);
-        printf("Indique o produto que deseja procurar\n");
-        getline(&productID,&bufsize,stdin);
-        strtok(productID,"\n");
-        getProductsSalesAndProfit(a,productID,mes);    
-        break;
-    case 6: 
-        printf("Indique a filial\n");
-        scanf("%d",&filial);
-        printf("Número de produtos nunca comprados: %d\n\n",getProductsNeverBought(a,filial));
-        break;
+        case 0:
+            break;
+        case 1:
+            a=initSGV();
+            printf("\n\nDone!\n\n");
+            break;
+        case 2:
+            destroySGV(a);
+            printf("\n\nDone!\n\n");
+            break;
+        case 3:
+            a=loadSGVFromFiles(a);
+            printf("\n\nDone!\n\n");
+            break;
+        case 4:
+            printf("\nIndique que letra deseja procurar\n");
+            scanf(" %c*[^\n]",&letra);
+            getProductsStartedByLetter(a,letra);
+            break;
+        case 5:
+            printf("Indique o mes\n");
+            scanf(" %d",&mes);
+            fflush(stdin);
+            printf("Indique o produto que deseja procurar\n");
+            getline(&productID,&bufsize,stdin);
+            strtok(productID,"\n");
+            getProductsSalesAndProfit(a,productID,mes);    
+            break;
+        case 6: 
+            printf("Indique a filial\n");
+            scanf("%d",&filial);
+            printf("Número de produtos nunca comprados: %d\n\n",getProductsNeverBought(a,filial));
+            break;
   /*  case 7:
         getClientsOfAllBranches(a);
         break;
         */
-    case 10:
-        printf("Indique entre que meses deseja procurar\n");
-        scanf(" %d",&minMonth);
-        scanf(" %d",&maxMonth);
-        getSalesAndProfit(a,minMonth,maxMonth);
-        break;
-    case 11:
-        printf("Insira a filial\n");
-        scanf("%d",&filial);
-        printf("Insira o produto\n");
-        fflush(stdin);
-        getline(&productID,&bufsize,stdin);
-        strtok(productID,"\n");
-        printf("\n\n");
-        getProductBuyers(a,productID,(filial-1));
-        break;
-    default:
-        printf("\nOpcao invalida! Por favor tente novamente!\n");
-        break;
+        case 8: 
+            getClientsAndProductsNeverBoughtCount(a);
+            break;
+        case 10:
+            printf("Indique entre que meses deseja procurar\n");
+            scanf(" %d",&minMonth);
+            scanf(" %d",&maxMonth);
+            getSalesAndProfit(a,minMonth,maxMonth);
+            break;
+        case 11:
+            printf("Insira a filial\n");
+            scanf("%d",&filial);
+            printf("Insira o produto\n");
+            fflush(stdin);
+            getline(&productID,&bufsize,stdin);
+            strtok(productID,"\n");
+            printf("\n\n");
+            getProductBuyers(a,productID,(filial-1));
+            break;
+        default:
+            printf("\nOpcao invalida! Por favor tente novamente!\n");
+            break;
     }        
 
     } while (opcao!=0);

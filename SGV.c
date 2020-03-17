@@ -92,11 +92,30 @@ Cliente getClientsOfAllBranches(SGV sgv)
     return newCliente;
 }
 
-/*
-void getClientsAndProductsNeverBoughtCount (SGV sgv) {
-    
-}
 
+void getClientsAndProductsNeverBoughtCount (SGV sgv) {
+    int i,j,totalP = 0, totalC = 0;
+    AVLC a;
+    for(i=0; i<26; i++) {
+        cleanBought(getAVLProd(sgv,i));
+        cleanBought(getAVLCLi(sgv,i));
+    }
+    for(i=0;i<3;i++) {
+        for(j=0;j<12;j++) {
+            a = getAVLC(sgv,i,j);
+            scanCliBoughtC(a,getCliente(sgv));
+            scanProdBoughtC(a,getProduto(sgv));
+        }
+    }
+    for(i=0;i<26;i++) {
+        totalC += numCliNeverBought(getAVLCLi(sgv,i));
+        totalP += numProdNeverBought(getAVLProd(sgv,i));
+    }
+    printf("Número de produtos nunca comprados: %d\n"
+           "Número de clientes que nunca compraram: %d\n",totalP,totalC);
+
+}
+/*
 Produto getProductsBoughtByClient(SGV sgv,char* clientID) {
 
 }
@@ -273,12 +292,12 @@ void testClientOfAllBranches(SGV sgv, Cliente newCliente, char *key)
     if (vendaCompleta==3) newCliente[key[0]-65] = insertAVL(newCliente[key[0]-65], key);
 }
 
-void printProductBuyers(AVLC a, char* productID) {
-    AVLP p;
-    if(a){
-        printProductBuyers(a->left, productID);
-        p = lookupAVLP(a->prod,productID);
-        if(p) puts(a->key);
-        printProductBuyers(a->right, productID);
+void scanCliBoughtC(AVLC a, Cliente c) {
+    if(a) {
+        AVL b;
+        scanCliBoughtC(a->left,c);
+        b = lookupAVL(c[a->key[0]-65],a->key);
+        b->bought = 1;
+        scanCliBoughtC(a->right,c);
     }
 }

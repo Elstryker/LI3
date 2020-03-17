@@ -65,6 +65,7 @@ int percorreAVLC(AVLC a);
 int salesAndProfitP(AVLP a, float *totalN, float *totalP);
 int salesAndProfitC(AVLC a, float *totalN, float *totalP, char* key);
 int monthlySalesAndProfit(AVLC a, float *totalN, float *totalP);
+void printProductBuyers(AVLC a, char* productID);
 
 
 #endif 

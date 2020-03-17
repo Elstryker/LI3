@@ -29,5 +29,6 @@ int inorderAVL(AVL a);
 int findProd(AVL a,char* key);
 AVL lookupAVL(AVL a, char* key);
 int printBought(AVL a);
+int numProdNeverBought(AVL a);
 
 #endif 

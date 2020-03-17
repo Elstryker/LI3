@@ -133,3 +133,13 @@ void cleanBought(AVL a) {
         cleanBought(a->right);
     }
 }
+
+int numCliNeverBought(AVL a) {
+    int r = 0;
+    if(a) {
+        r += numCliNeverBought(a->left);
+        if(!(a->bought)) r++;
+        r += numCliNeverBought(a->right); 
+    }
+    return r;
+}

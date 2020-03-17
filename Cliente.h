@@ -21,5 +21,6 @@ AVL insertAVL(AVL a,char* x);
 void printAVL(AVL a, int i);
 int findCli(AVL a,char* key);
 void cleanBought(AVL a);
+int numCliNeverBought(AVL a);
 
 #endif 

@@ -294,3 +294,12 @@ AVLP lookupAVLP(AVLP a, char* key) {
     return r;
 }
 
+void printProductBuyers(AVLC a, char* productID) {
+    AVLP p;
+    if(a){
+        printProductBuyers(a->left, productID);
+        p = lookupAVLP(a->prod,productID);
+        if(p) puts(a->key);
+        printProductBuyers(a->right, productID);
+    }
+}

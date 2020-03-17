@@ -59,6 +59,6 @@ void scanProdBoughtP(AVLP a, Produto p);
 void scanProdBoughtC(AVLC a, Produto p);
 void percorreArvore(SGV sgv, AVL clientes, Cliente newCliente);
 void testClientOfAllBranches(SGV sgv, Cliente newCliente, char *key);
-void printProductBuyers(AVLC a, char* productID);
+void scanCliBoughtC(AVLC a, Cliente c);
 
 #endif 
