@@ -95,7 +95,7 @@ Cliente getClientsOfAllBranches(SGV sgv){
 //se nao encontrou venda nesse mes, entao passa para o proximo mes e a venda está incompleta para ja 
 
 */
-void testClientOfAllBranches(SGV sgv, Cliente *newCliente, char *key)
+void testClientOfAllBranches(SGV sgv, Cliente newCliente, char *key)
 {
     int vendaFilial=0;
     int vendaIncompleta=0;
@@ -122,13 +122,13 @@ void testClientOfAllBranches(SGV sgv, Cliente *newCliente, char *key)
 
 
 
-void percorreArvore(SGV sgv, AVL clientes, Cliente *newCliente)
+void percorreArvore(SGV sgv, AVL clientes, Cliente newCliente)
 {
     if(clientes)
     {
-        percorreArvore(sgv, clientes->left, &newCliente);
-        percorreArvore(sgv, clientes->right, &newCliente);
-        testClientOfAllBranches(sgv, &newCliente, clientes->key);
+        percorreArvore(sgv, clientes->left, newCliente);
+        percorreArvore(sgv, clientes->right, newCliente);
+        testClientOfAllBranches(sgv, newCliente, clientes->key);
 
     }
 
@@ -189,7 +189,7 @@ Cliente getClientsOfAllBranches(SGV sgv)
 
 
 
-/*
+
 void getClientsAndProductsNeverBoughtCount (SGV sgv) {
     
 }
@@ -197,11 +197,28 @@ void getClientsAndProductsNeverBoughtCount (SGV sgv) {
 Produto getProductsBoughtByClient(SGV sgv,char* clientID) {
 
 }
+*/
 
 void getSalesAndProfit (SGV sgv,int minMonth, int maxMonth) {
-
+    int i,month, totalSales =0;
+    float totalN = 0, totalP=0;
+    AVLC a;
+    for(month=minMonth-1;month<maxMonth-1;month++){
+        for(i=0;i<3;i++) {
+            a=getAVLC(sgv,i,month);
+            totalSales += monthlySalesAndProfit(a,&totalN,&totalP);
+        }
+    }
+    printf("Vendas totais entre o mes %d e o mes %d: %d\n"
+            "Vendas totais em venda normal: %0.2f\n"
+            "Vendas totais em promocao: %0.2f\n",minMonth,maxMonth,totalSales,totalN,totalP);
 }
 
+
+
+
+
+/*
 Cliente getProductBuyers (SGV sgv, char * productID, int branch) {
 
 }
