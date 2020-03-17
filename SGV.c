@@ -59,33 +59,68 @@ Produto getProductsNeverBought (SGV sgv, int branchID) {
 
 
 
-
-
-
-
-
-
-//Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais
-
-
-
-Cliente getClientsOfAllBranches(SGV sgv)
+AVLC findVendaCliente(AVLC clientes, char* key)
 {
-    Cliente newCliente = malloc(sizeof(Cliente));
-
-    for(int l=0; l<26; l++)
+    while(clientes)
     {
-        //AVL arv = sgv.c[l];
-        if(sgv.c[l])
-        {
-            percorreArvore(sgv, sgv.c[l], &newCliente);
-
-            //AQUI EU QUERO IR BUSCAR A KEY DE CADA CLIENTE E MANDAR COMPARAR COM AS VENDAS 
-            //MANTER SEMPRE O MESMO APONTADOR PARA O NEW CLIENTE PARA IR ADICIONANDO AS KEYS DOS CLIENTES QUE CUMPREM
-        }
+        int i=strcmp(clientes->key,key);
+        if(i>0) clientes=clientes->left;
+        else if(i<0) clientes=clientes->right;
+        else return clientes;
     }
-    return newCliente;
+    return clientes;
+} 
+
+    /*
+    int find=0;
+    if(clientes) {
+        int i=strcmp(clientes->key,key);
+        if(i>0) find=findVendaCliente(clientes->left, key);
+        else if(i<0) find=findVendaCliente(clientes->right, key);
+        
+        else 
+            if (clientes->prod->ocup>0) return 1; 
+    }
+    return find;
+    
+}*/
+
+
+
+/*
+Cliente getClientsOfAllBranches(SGV sgv){
+
+//procurar na arvore das vendas
+//se encontrou venda, entao venda filial é positiva, sai de procurar desse mes
+//se nao encontrou venda nesse mes, entao passa para o proximo mes e a venda está incompleta para ja 
+
+*/
+void testClientOfAllBranches(SGV sgv, Cliente *newCliente, char *key)
+{
+    int vendaFilial=0;
+    int vendaIncompleta=0;
+    int vendaCompleta=0;
+
+    for(int f=0; f<3 && vendaIncompleta==0; f++)
+    {
+        for(int m=0; m<12 && vendaFilial==0; m++)
+        {
+            if (findVendaCliente(sgv.v[f][m], key))
+            {
+                vendaFilial=1;
+                vendaIncompleta=0;
+            } 
+            else vendaIncompleta=1;
+        }
+        if (vendaFilial==1) vendaCompleta++; 
+    } 
+    if (vendaCompleta==3) newCliente[key[0]-65] = insertAVL(newCliente[key[0]-65], key);
 }
+
+
+
+
+
 
 void percorreArvore(SGV sgv, AVL clientes, Cliente *newCliente)
 {
@@ -112,49 +147,34 @@ int getProductsNeverBought (SGV sgv, int branchID) {
 /*
 Cliente getClientsOfAllBranches(SGV sgv){
 
-//procurar na arvore das vendas
-//se encontrou venda, entao venda filial é positiva, sai de procurar desse mes
-//se nao encontrou venda nesse mes, entao passa para o proximo mes e a venda está incompleta para ja 
-void testClientOfAllBranches(SGV sgv, Cliente *newCliente, char *key)
+
+
+
+
+
+
+
+//Determinar a lista ordenada de códigos de clientes que realizaram compras em todas as filiais
+
+
+
+Cliente getClientsOfAllBranches(SGV sgv)
 {
-    int vendaFilial=0;
-    int vendaIncompleta=0;
-    int vendaCompleta=0;
+    Cliente newCliente = malloc(sizeof(Cliente));
 
-    for(int f=0; f<3 && vendaIncompleta==0; f++)
+    for(int l=0; l<26; l++)
     {
-        for(int m=0; m<12 && vendaFilial==0; m++)
-        {
-            if (findVendaCliente(sgv.v[f][m], key) == 1)
-            {
-                vendaFilial=1;
-                vendaIncompleta=0;
-            } 
-            else vendaIncompleta=1;
-        }
-        if (vendaFilial==1) vendaCompleta++; 
-    } 
-    if (vendaCompleta==3) insertAVL(&newCliente, key);
-}
-
-
-int findVendaCliente(AVLC clientes, char* key) {
-    int find=0;
-    if(clientes) {
-        int i=strcmp(clientes->key,key);
-        if(i>0) find=findVendaCliente(clientes->left, key);
-        else if(i<0) find=findVendaCliente(clientes->right, key);
         
-        else 
-            if (clientes->prod->ocup>0) return 1; 
+        if(sgv.c[l])
+        {
+            percorreArvore(sgv, sgv.c[l], &newCliente);
+
+            //AQUI EU QUERO IR BUSCAR A KEY DE CADA CLIENTE E MANDAR COMPARAR COM AS VENDAS 
+            //MANTER SEMPRE O MESMO APONTADOR PARA O NEW CLIENTE PARA IR ADICIONANDO AS KEYS DOS CLIENTES QUE CUMPREM
+        }
     }
-    return find;
+    return newCliente;
 }
-
-
-
-
-
 
 
 

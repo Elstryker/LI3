@@ -50,6 +50,9 @@ int main(int argc, const char * argv[]) {
         strtok(productID,"\n");
         getProductsSalesAndProfit(a,productID,mes);    
         break;
+    case 7:
+        getClientsOfAllBranches(a);
+        break;
     default:
     printf("\nOpcao invalida! Por favor tente novamente!\n");
         break;
