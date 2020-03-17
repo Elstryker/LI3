@@ -6,7 +6,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-typedef struct AVL *AVL;
+typedef struct AVL {
+    char* key;
+    int height;
+    struct AVL* right;
+    struct AVL* left;
+} *AVL;
 
 typedef AVL *Produto;
 

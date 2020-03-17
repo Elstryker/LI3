@@ -28,7 +28,7 @@ void destroySGV(SGV a);
 SGV loadSGVFromFiles(SGV sgv);
 void getProductsStartedByLetter (SGV sgv, char letter);
 void getProductsSalesAndProfit (SGV sgv, char * productID, int month);
-Produto getProductsNeverBought (SGV sgv, int branchID);
+int getProductsNeverBought (SGV sgv, int branchID);
 Cliente getClientsOfAllBranches(SGV sgv);
 void getClientsAndProductsNeverBoughtCount (SGV sgv);
 Produto getProductsBoughtByClient(SGV sgv,char* clientID);
@@ -43,8 +43,14 @@ Produto getClientTopProfitProducts(SGV sgv, char * clientID, int limit);
 AVL getAVLLetter(SGV a,char letter);
 AVLC getAVLC(SGV a, int filial, int mes);
 AVLP getAVLP(AVLC a);
+AVL getAVL(SGV a, int index);
+Venda getVenda(SGV a);
 int valvenda(SGV sgv,char *prod,float prec,int un,char prom,char *cli,int mes,int super);
 void readFiletoVenda(SGV v, FILE* f);
+int neverBoughtP(AVLP a, char* key);
+int neverBoughtC(AVLC a,char* key);
+int scanNeverBoughtP(char* key, Venda v);
+int allProductNeverBoughtScan(AVL a, Venda v);
 
 
 #endif 

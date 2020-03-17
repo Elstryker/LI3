@@ -52,6 +52,7 @@ void getProductsSalesAndProfit (SGV sgv, char * productID, int month) {
            "Vendas totais em promoçao: %0.2f\n\n",productID, month, totalSales, totalN, totalP);
 }
 
+<<<<<<< HEAD
 /*
 Produto getProductsNeverBought (SGV sgv, int branchID) {
 
@@ -99,6 +100,20 @@ void percorreArvore(SGV sgv, AVL clientes, Cliente *newCliente)
 
 }
 
+=======
+int getProductsNeverBought (SGV sgv, int branchID) {
+    int total = 0;
+    AVL a;
+    for(int i=0; i<26; i++) {
+        a = getAVL(sgv,i);
+        total+=allProductNeverBoughtScan(a, getVenda(sgv));
+    }
+    return total;
+}
+
+/*
+Cliente getClientsOfAllBranches(SGV sgv){
+>>>>>>> da070dffdd7d6e158051cc7d71d2e554df8833c4
 
 //procurar na arvore das vendas
 //se encontrou venda, entao venda filial é positiva, sai de procurar desse mes
@@ -202,6 +217,14 @@ AVLP getAVLP(AVLC a) {
     return a->prod;
 }
 
+AVL getAVL(SGV a, int index) {
+    return a.p[index];
+}
+
+Venda getVenda(SGV a) {
+    return a.v;
+}
+
 void readFiletoVenda(SGV sgv, FILE* f) {
     char*prod, *cli = NULL, prom = '\0', *buffer;
     float price = 0;
@@ -237,3 +260,49 @@ int valvenda(SGV sgv, char *prod,float price,int quant,char prom,char *cli,int m
 
     return i;
 }
+
+int isBoughtP(AVLP a, char* key) {
+    int bool = 0;
+    AVLP b=a;
+    int cmp;
+    while(b!=NULL && bool!=1) {
+        cmp = strcmp(key, b->key);
+        if(cmp > 0) b=b->right;
+        else if(cmp < 0) b=b->left;
+        else bool = 1;
+    }
+    return bool;
+}
+
+int isBoughtC(AVLC a,char* key) {
+    int bool = 0;
+    if(a) {
+        if( isBoughtC(a->left,key) ||
+            isBoughtP(a->prod,key) ||
+            isBoughtC(a->right,key)) bool = 1;
+    }
+    return bool;
+} 
+
+int scanNeverBoughtP(char* key, Venda v) {
+    int i,j, r = 0;
+    for(i=0; i<3 && r==0; i++) {
+        for(j=0; j<12 && r==0; j++) {
+            if(isBoughtC(v[i][j],key)) r=1;
+        }
+    }
+    return r;
+}
+
+int allProductNeverBoughtScan(AVL a, Venda v) {
+    int total = 0;
+    if(a) {
+        total+=allProductNeverBoughtScan(a->left,v);
+        if(scanNeverBoughtP(a->key,v)==0) {
+            printf("%s\n", a->key);
+            total++;
+        }
+        total+=allProductNeverBoughtScan(a->right,v);
+    }
+    return total;
+} 
