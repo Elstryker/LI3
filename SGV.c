@@ -52,7 +52,6 @@ void getProductsSalesAndProfit (SGV sgv, char * productID, int month) {
            "Vendas totais em promoçao: %0.2f\n\n",productID, month, totalSales, totalN, totalP);
 }
 
-<<<<<<< HEAD
 /*
 Produto getProductsNeverBought (SGV sgv, int branchID) {
 
@@ -100,7 +99,6 @@ void percorreArvore(SGV sgv, AVL clientes, Cliente *newCliente)
 
 }
 
-=======
 int getProductsNeverBought (SGV sgv, int branchID) {
     int total = 0;
     AVL a;
@@ -113,7 +111,6 @@ int getProductsNeverBought (SGV sgv, int branchID) {
 
 /*
 Cliente getClientsOfAllBranches(SGV sgv){
->>>>>>> da070dffdd7d6e158051cc7d71d2e554df8833c4
 
 //procurar na arvore das vendas
 //se encontrou venda, entao venda filial é positiva, sai de procurar desse mes
