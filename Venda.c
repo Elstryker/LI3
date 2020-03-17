@@ -269,7 +269,7 @@ int salesAndProfitC(AVLC a, float *totalN, float *totalP, char* key) {
     return totalSales;
 }
 
-
+/*
 int currentMonthSalesAndProfit (AVLP prod, float *totalN, float *totalP) {
     int totalSales = 0;
     int ocup= prod->ocup;
@@ -278,15 +278,14 @@ int currentMonthSalesAndProfit (AVLP prod, float *totalN, float *totalP) {
         else (*totalP) += (float) ((prod->array[i].price) * (prod->array[i].quant));
     }
     return totalSales;
-}
+}*/
 
 int monthlySalesAndProfit(AVLC a, float *totalN, float *totalP) {
     
     int totalSales =0;
     if(a)  {
         totalSales += monthlySalesAndProfit(a->left,totalN,totalP);
-        totalSales ++;
-        currentMonthSalesAndProfit(a->prod,totalN,totalP);
+        totalSales += salesAndProfitP(a->prod,totalN,totalP);
         totalSales += monthlySalesAndProfit(a->right,totalN,totalP);
     }
     return totalSales;
