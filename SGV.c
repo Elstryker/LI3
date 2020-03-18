@@ -81,7 +81,7 @@ int getProductsNeverBought (SGV sgv, int branchID) {
 
 Cliente getClientsOfAllBranches(SGV sgv)
 {
-    Cliente newCliente = malloc(sizeof(Cliente));
+    Cliente newCliente = initCliente();
     for(int l=0; l<26; l++)
     {
         if(sgv.c[l])
@@ -89,8 +89,13 @@ Cliente getClientsOfAllBranches(SGV sgv)
             percorreArvore(sgv, sgv.c[l], newCliente);
         }
     }
+    for(int i=0; i<26; i++)
+    {
+        if (newCliente[i]) printAVLasList(newCliente[i]);
+    }
     return newCliente;
 }
+
 
 
 void getClientsAndProductsNeverBoughtCount (SGV sgv) {

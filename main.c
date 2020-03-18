@@ -69,9 +69,9 @@ int main(int argc, const char * argv[]) {
                 scanf("%d",&filial);
                 printf("Número de produtos nunca comprados: %d\n\n",getProductsNeverBought(a,filial));
                 break;
-    /*      case 7:
+            case 7:
                 getClientsOfAllBranches(a);
-                break; */
+                break;
             case 8: 
                 getClientsAndProductsNeverBoughtCount(a);
                 break;

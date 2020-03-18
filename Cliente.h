@@ -22,5 +22,6 @@ void printAVL(AVL a, int i);
 int findCli(AVL a,char* key);
 void cleanBought(AVL a);
 int numCliNeverBought(AVL a);
+void printAVLasList (AVL a);
 
 #endif 

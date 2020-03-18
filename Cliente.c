@@ -143,3 +143,10 @@ int numCliNeverBought(AVL a) {
     }
     return r;
 }
+
+void printAVLasList (AVL a) {
+    if (a==NULL) return;
+    printAVLasList(a->left);
+    printf("%s \n", a->key);
+    printAVLasList(a->right);
+}
